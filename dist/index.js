@@ -64,13 +64,6 @@ var Classux =
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	function Reducer(action) {
-	    return function (prototype, key) {
-	        prototype[REDUCERS] = prototype[REDUCERS] || {};
-	        prototype[REDUCERS][action] = key;
-	    };
-	}
-	
 	var UPDATER = Symbol();
 	var DISPOSER = Symbol();
 	
@@ -241,6 +234,12 @@ var Classux =
 	}();
 	
 	exports.default = Store;
+	function Reducer(action) {
+	    return function (prototype, key) {
+	        prototype[REDUCERS] = prototype[REDUCERS] || {};
+	        prototype[REDUCERS][action] = key;
+	    };
+	}
 
 /***/ }
 /******/ ]);

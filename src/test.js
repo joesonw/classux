@@ -65,7 +65,7 @@ describe('test', () => {
             }
         }
         const a = new A();
-        Sleep(10).then(res => {
+        Sleep(100).then(res => {
             const state = a.getState();
             assert.equal(state.a, '2');
             assert.equal(state.b, '1');
