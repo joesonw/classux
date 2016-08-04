@@ -14,9 +14,9 @@ class Store {
         this[STATE] = defaultState;
         this[LISTENERS] = [];
         this[REDUCERS] = this[REDUCERS] || {};
-        this[NOTIFY] = (action, params) => {
+        this[NOTIFY] = (action, ...params) => {
             for (const listener of this[LISTENERS]) {
-                listener(this[STATE], action, params);
+                listener(this[STATE], action, ...params);
             }
         }
     }
@@ -29,15 +29,15 @@ class Store {
     }
 
 
-    dispatch(action, params) {
+    dispatch(action, ...params) {
         const reducer = this[this[REDUCERS][action]];
         if (reducer) {
-            const state = reducer.call(this, params);
+            const state = reducer.call(this, ...params);
             if (state instanceof Promise) {
                 state
                     .then(state => {
                         this[STATE] = state;
-                        this[NOTIFY](action, params);
+                        this[NOTIFY](action, ...params);
                     })
                     .catch(e => {
                         if (e) {
@@ -46,7 +46,7 @@ class Store {
                     });
             } else {
                 this[STATE] = state;
-                this[NOTIFY](action, params);
+                this[NOTIFY](action, ...params);
             }
         }
     }
