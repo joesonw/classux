@@ -1,3 +1,10 @@
+export function Reducer(action) {
+    return (prototype, key) => {
+        prototype[REDUCERS] = prototype[REDUCERS] || {};
+        prototype[REDUCERS][action] = key;
+    }
+}
+
 const UPDATER = Symbol();
 const DISPOSER = Symbol();
 
@@ -8,7 +15,7 @@ const DEFAULT_STATE = Symbol();
 
 const NOTIFY = Symbol();
 
-class Store {
+export default class Store {
     constructor(defaultState) {
         this[DEFAULT_STATE] = defaultState;
         this[STATE] = defaultState;
@@ -93,14 +100,5 @@ class Store {
                 actions,
             });
         }
-    }
-}
-
-
-export default Store;
-export function Reducer(action) {
-    return (prototype, key) => {
-        prototype[REDUCERS] = prototype[REDUCERS] || {};
-        prototype[REDUCERS][action] = key;
     }
 }
