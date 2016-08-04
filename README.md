@@ -12,6 +12,9 @@ This is a ES6-Class Flux Store.
 
 
 ```
+import Store, {
+    Reducer
+} from 'classux';
 class TestStore extends Store {
     constructor() {
         //init with default state.
