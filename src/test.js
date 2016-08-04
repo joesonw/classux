@@ -174,6 +174,52 @@ describe('test', () => {
         assert.equal(state.b, '2');
     });
 
+    it ('should call @onUpdate methods on desired actions', (done) => {
+        class A extends Store {
+            constructor() {
+                super({
+                    a: '1',
+                    b: '2',
+                });
+            }
+
+            @Reducer('test')
+            async test() {
+                await Sleep(1);
+                return {
+                    a: '2',
+                    b: '1',
+                }
+            }
+
+            @Reducer('test2')
+            async test() {
+                await Sleep(1);
+                return {
+                    a: '3',
+                    b: '2',
+                }
+            }
+        }
+        const a = new A();
+
+        class B {
+            @a.onUpdate('test2')
+            onUpdate(state) {
+                assert.equal(state.a, '3');
+                assert.equal(state.b, '2');
+                done();
+            }
+        }
+        const b = new B();
+        b.componentDidMount();
+        a.dispatch('test');
+        a.dispatch('test2');
+        const state = a.getState();
+        assert.equal(state.a, '1');
+        assert.equal(state.b, '2');
+    });
+
     it ('should unmount @onUpdate methods', (done) => {
         class A extends Store {
             constructor() {
@@ -209,4 +255,29 @@ describe('test', () => {
         assert.equal(state.b, '2');
         setTimeout(done, 100);
     });
+
+    it ('should take params', () => {
+        class A extends Store {
+            constructor() {
+                super({
+                    a: '1',
+                    b: '2',
+                });
+            }
+            @Reducer('test')
+            test(a, b) {
+                return {
+                    a,
+                    b,
+                }
+            }
+        }
+        const a = new A();
+        a.dispatch('test', '2', '1');
+        const state = a.getState();
+        assert.equal(state.a, '2');
+        assert.equal(state.b, '1');
+    });
+
+
 });

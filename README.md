@@ -75,14 +75,17 @@ class App extends React.Component {
 ###subscribe(listener: Function(state, action)): Function
 > this returns a disposer function
 
-###dispatch(action, params) 
+###dispatch(action, params)
 > this dispatches an Action.
 
 ###getState()
 > get current state
 
-###onUpdate()
+###onUpdate(...actions)
+> if no actions are specified, then all actions are listened.
+
 > this is a decorator, it decorates a method and class, so it automatically subscribe and dispose regarding React's component lifecycle.
+
 ```
 class A {
 	@storeInstance.onUpdate()
@@ -90,7 +93,7 @@ class A {
 	}
 }
 
-//or 
+//or
 
 class A {
 	method() {
@@ -103,8 +106,6 @@ storeInstance.onUpdate()(A, 'method');
 > This binds action reducer.
 
 #TODO
-
-- [ ] subscribe on specific actions only
 
 
 #Contributions are welcome

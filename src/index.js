@@ -55,7 +55,7 @@ class Store {
         return this[STATE];
     }
 
-    onUpdate() {
+    onUpdate(...actions) {
         const self = this;
         return (prototype, key) => {
             if (!Array.isArray(prototype[UPDATER])) {
@@ -65,8 +65,14 @@ class Store {
 
                 prototype.componentDidMount = function() {
                     this[DISPOSER] = self.subscribe((state, action) => {
-                        for (const key of this[UPDATER]) {
-                            this[key](state, action);
+                        for (const item of this[UPDATER]) {
+                            if (actions.length === 0) {
+                                this[key](state, action);
+                            } else {
+                                if (actions.indexOf(action) !== -1) {
+                                    this[key](state, action);
+                                }
+                            }
                         }
                     });
                     if (componentDidMount) {
@@ -82,7 +88,10 @@ class Store {
                 }
             }
 
-            prototype[UPDATER].push(key);
+            prototype[UPDATER].push({
+                method: key,
+                actions,
+            });
         }
     }
 }
