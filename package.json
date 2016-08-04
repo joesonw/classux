@@ -1,0 +1,45 @@
+{
+  "name": "classux",
+  "version": "0.0.1",
+  "description": "class based flux store for react",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run install && npm run build-test && npm run mocha",
+    "build-test": "./node_modules/.bin/webpack --config webpack.test.config.js",
+    "mocha": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- dist/test.js --require source-map-support/register",
+    "install": "./node_modules/.bin/webpack"
+  },
+  "author": "Qiaosen Huang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joesonw/classux.git"
+  },
+  "keywords": [
+    "class",
+    "babel",
+    "es7",
+    "flux",
+    "redux",
+    "store",
+    "react"
+  ],
+  "bugs": {
+    "url": "https://github.com/joesonw/classux/issues"
+  },
+  "homepage": "https://github.com/joesonw/classux#readme",
+  "devDependencies": {
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "chai": "^3.5.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.1",
+    "source-map-support": "^0.4.2",
+    "webpack": "^1.13.1"
+  },
+  "dependencies": {}
+}
