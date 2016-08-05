@@ -138,11 +138,11 @@ describe('test', () => {
         });
         a.dispatch('test');
         dispose();
-        setImmediate(() => {
+        setTimeout(() => {
             const state = a.getState();
-            assert.equal(state.a, '1');
-            assert.equal(state.b, '2');
-        });
+            assert.equal(state.a, '2');
+            assert.equal(state.b, '1');
+        }, 500);
         setTimeout(done, 1000);
     });
 
