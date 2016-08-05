@@ -105,8 +105,59 @@ class A {
 storeInstance.onUpdate()(A, 'method');
 ```
 
-##Reducer
-> This binds action reducer.
+##@Reducer
+> This decorator binds action reducer.
+
+##@Inject
+> This decorator injects middleware to a store, the flow is like koa's middleware flow, onion shape, it flows out to the most inside one and then the reducer, and all the way up to the most outside one.
+
+> Folloing is a example shows how it works.
+
+```
+async function levelIn(next, state, action, ...params) {
+    const [counter] = params;
+    assert.equal(state.counter, 4); // state from levelOut middleware
+    assert.equal(action, 'test')    // action keeps the same
+    assert.equal(counter, 1);       // params keeps the same
+    const afterState = await next({counter: 5}); // pass/get state to the next middleware, which is the reducer.).
+    assert.equal(afterState.counter, 1);
+    return {  // return to outter middleware
+        counter: 2,
+    }
+}
+async function levelOut(next, state, action, counter) {
+    assert.equal(state.counter, 0); // initial state, (this is the most outside middlware).
+    assert.equal(action, 'test')
+    assert.equal(counter, 1);
+    const afterState = await next({counter: 4}); // pass/get state to next middlware(levelIn).
+    assert.equal(afterState.counter, 2);
+    return {      
+        counter: 3,
+    }   // return to the outter middleware, which is dispatch itself, so this will be the value user receives.
+}
+@Inject(levelOut, levelIn)
+class A extends Store {
+    constructor() {
+        super({
+            counter: 0,
+        });
+    }
+    @Reducer('test')
+    test(counter) {
+        assert.equal(this.getState().counter, 5);
+        return {
+            counter,
+        };
+    }
+}
+const a = new A();
+a.dispatch('test', 1);
+setTimeout(() => {
+    const state = a.getState();
+    assert.equal(state.counter, 3);
+    done();
+}, 100);
+```
 
 #TODO
 
