@@ -125,7 +125,6 @@ describe('test', () => {
 
             @Reducer('test')
             async test() {
-                await Sleep(1);
                 return {
                     a: '2',
                     b: '1',
@@ -136,14 +135,14 @@ describe('test', () => {
         const dispose = a.subscribe(state => {
             assert.isNull('this should not be triggered');
         });
-        a.dispatch('test');
         dispose();
+        a.dispatch('test');
         setTimeout(() => {
             const state = a.getState();
             assert.equal(state.a, '2');
             assert.equal(state.b, '1');
-        }, 900);
-        setTimeout(done, 1000);
+        }, 1800);
+        setTimeout(done, 1900);
     });
 
     it ('should call @onUpdate methods', (done) => {

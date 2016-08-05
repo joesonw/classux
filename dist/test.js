@@ -8402,16 +8402,12 @@ var Classux =
 	                            while (1) {
 	                                switch (_context3.prev = _context3.next) {
 	                                    case 0:
-	                                        _context3.next = 2;
-	                                        return Sleep(1);
-	
-	                                    case 2:
 	                                        return _context3.abrupt('return', {
 	                                            a: '2',
 	                                            b: '1'
 	                                        });
 	
-	                                    case 3:
+	                                    case 1:
 	                                    case 'end':
 	                                        return _context3.stop();
 	                                }
@@ -8434,14 +8430,15 @@ var Classux =
 	        var dispose = a.subscribe(function (state) {
 	            _chai.assert.isNull('this should not be triggered');
 	        });
-	        a.dispatch('test');
 	        dispose();
+	        a.dispatch('test');
 	        setTimeout(function () {
 	            var state = a.getState();
+	            console.log(state);
 	            _chai.assert.equal(state.a, '2');
 	            _chai.assert.equal(state.b, '1');
-	        }, 500);
-	        setTimeout(done, 1000);
+	        }, 1800);
+	        setTimeout(done, 1900);
 	    });
 	
 	    it('should call @onUpdate methods', function (done) {
