@@ -1,5 +1,6 @@
 import Store, {
-    Reducer
+    Reducer,
+    Inject,
 } from './';
 import {
     assert,
@@ -23,7 +24,7 @@ describe('test', () => {
         assert.equal(state.b, '2');
     });
 
-    it ('should respond to sync reducer', () => {
+    it ('should respond to sync reducer', (done) => {
         class A extends Store {
             constructor() {
                 super({
@@ -41,9 +42,12 @@ describe('test', () => {
         }
         const a = new A();
         a.dispatch('test')
-        const state = a.getState();
-        assert.equal(state.a, '2');
-        assert.equal(state.b, '1');
+        setImmediate(() => {
+            const state = a.getState();
+            assert.equal(state.a, '2');
+            assert.equal(state.b, '1');
+            done();
+        });
     });
 
     it ('should respond to async reducer', (done) => {
@@ -103,9 +107,11 @@ describe('test', () => {
             done();
         });
         a.dispatch('test');
-        const state = a.getState();
-        assert.equal(state.a, '1');
-        assert.equal(state.b, '2');
+        setImmediate(() => {
+            const state = a.getState();
+            assert.equal(state.a, '1');
+            assert.equal(state.b, '2');
+        });
     });
 
     it ('should unsubscribe', (done) => {
@@ -256,7 +262,7 @@ describe('test', () => {
         setTimeout(done, 100);
     });
 
-    it ('should take params', () => {
+    it ('should take params', (done) => {
         class A extends Store {
             constructor() {
                 super({
@@ -274,10 +280,56 @@ describe('test', () => {
         }
         const a = new A();
         a.dispatch('test', '2', '1');
-        const state = a.getState();
-        assert.equal(state.a, '2');
-        assert.equal(state.b, '1');
+        setImmediate(() => {
+            const state = a.getState();
+            assert.equal(state.a, '2');
+            assert.equal(state.b, '1');
+            done();
+        });
     });
 
-
+    it('should handle middlwares properly', (done) => {
+        async function levelIn(next, state, action, counter) {
+            assert.equal(state.counter, 4);
+            assert.equal(action, 'test')
+            assert.equal(counter, 1);
+            const afterState = await next({counter: 5});
+            assert.equal(afterState.counter, 1);
+            return {
+                counter: 2,
+            }
+        }
+        async function levelOut(next, state, action, counter) {
+            assert.equal(state.counter, 0);
+            assert.equal(action, 'test')
+            assert.equal(counter, 1);
+            const afterState = await next({counter: 4});
+            assert.equal(afterState.counter, 2);
+            return {
+                counter: 3,
+            }
+        }
+        @Inject(levelOut, levelIn)
+        class A extends Store {
+            constructor() {
+                super({
+                    counter: 0,
+                });
+            }
+            @Reducer('test')
+            test(counter) {
+                assert.equal(this.getState().counter, 5);
+                return {
+                    counter,
+                };
+            }
+        }
+        const a = new A();
+        a.dispatch('test', 1);
+        setTimeout(() => {
+            const state = a.getState();
+            assert.equal(state.counter, 3);
+            done();
+        }, 100);
+    });
 });

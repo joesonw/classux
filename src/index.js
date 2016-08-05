@@ -1,4 +1,4 @@
-export { Reducer };
+export { Reducer, Inject };
 
 const UPDATER = Symbol();
 const DISPOSER = Symbol();
@@ -7,6 +7,8 @@ const STATE = Symbol();
 const LISTENERS = Symbol();
 const REDUCERS = Symbol();
 const DEFAULT_STATE = Symbol();
+const MIDDLEWARES = Symbol();
+
 
 const NOTIFY = Symbol();
 
@@ -15,6 +17,7 @@ export default class Store {
         this[DEFAULT_STATE] = defaultState;
         this[STATE] = defaultState;
         this[LISTENERS] = [];
+        this[MIDDLEWARES] = this[MIDDLEWARES] || [];
         this[REDUCERS] = this[REDUCERS] || {};
         this[NOTIFY] = (action, ...params) => {
             for (const listener of this[LISTENERS]) {
@@ -30,27 +33,47 @@ export default class Store {
         };
     }
 
-
     dispatch(action, ...params) {
-        const reducer = this[this[REDUCERS][action]];
-        if (reducer) {
-            const state = reducer.call(this, ...params);
-            if (state instanceof Promise) {
-                state
-                    .then(state => {
-                        this[STATE] = state;
-                        this[NOTIFY](action, ...params);
-                    })
-                    .catch(e => {
-                        if (e) {
-                            console.error(e.stack || e);
-                        }
-                    });
-            } else {
-                this[STATE] = state;
-                this[NOTIFY](action, ...params);
+        const self = this;
+        async function dispatch(_state) {
+            const reducer = self[self[REDUCERS][action]];
+
+            if (reducer) {
+                if (_state) {
+                    self[STATE] = _state;
+                }
+                const state = reducer.call(self, ...params);
+                if (state instanceof Promise) {
+                    return await state;
+                } else {
+                    return state;
+                }
             }
+        };
+        const middlewares = this[MIDDLEWARES];
+        async function run(next) {
+            let i = middlewares.length;
+            while (i--) {
+                next = ((middleware, next) => async (_state) => {
+                        const state = _state || self.getState();
+                        return await middleware(
+                            next,
+                            state,
+                            action,
+                            ...params
+                        );
+                    })(middlewares[i], next);
+            }
+            return await next();
         }
+        run(dispatch)
+            .then(state => {
+                self[STATE] = state;
+                self[NOTIFY](action, params);
+            })
+            .catch(e => {
+                console.log(e.stack || e);
+            })
     }
 
     getState() {
@@ -96,11 +119,21 @@ export default class Store {
             });
         }
     }
+
+    inject(...middlwares) {
+        this[MIDDLEWARES].push(...middlwares);
+    }
 }
 
 function Reducer(action) {
     return (prototype, key) => {
         prototype[REDUCERS] = prototype[REDUCERS] || {};
         prototype[REDUCERS][action] = key;
+    }
+}
+function Inject(...middlewares) {
+    return (obj) => {
+        obj.prototype[MIDDLEWARES] = obj.prototype[MIDDLEWARES] || [];
+        obj.prototype[MIDDLEWARES].push(...middlewares);
     }
 }

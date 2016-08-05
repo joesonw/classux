@@ -62,9 +62,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
+	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
+	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	exports.Reducer = Reducer;
+	exports.Inject = Inject;
 	
 	
 	var UPDATER = Symbol();
@@ -74,6 +77,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var LISTENERS = Symbol();
 	var REDUCERS = Symbol();
 	var DEFAULT_STATE = Symbol();
+	var MIDDLEWARES = Symbol();
 	
 	var NOTIFY = Symbol();
 	
@@ -86,6 +90,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this[DEFAULT_STATE] = defaultState;
 	        this[STATE] = defaultState;
 	        this[LISTENERS] = [];
+	        this[MIDDLEWARES] = this[MIDDLEWARES] || [];
 	        this[REDUCERS] = this[REDUCERS] || {};
 	        this[NOTIFY] = function (action) {
 	            for (var _len = arguments.length, params = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -132,29 +137,126 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "dispatch",
 	        value: function dispatch(action) {
-	            var _this3 = this;
-	
 	            for (var _len2 = arguments.length, params = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
 	                params[_key2 - 1] = arguments[_key2];
 	            }
 	
-	            var reducer = this[this[REDUCERS][action]];
-	            if (reducer) {
-	                var state = reducer.call.apply(reducer, [this].concat(params));
-	                if (state instanceof Promise) {
-	                    state.then(function (state) {
-	                        _this3[STATE] = state;
-	                        _this3[NOTIFY].apply(_this3, [action].concat(params));
-	                    }).catch(function (e) {
-	                        if (e) {
-	                            console.error(e.stack || e);
+	            var dispatch = function () {
+	                var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(_state) {
+	                    var reducer, state;
+	                    return regeneratorRuntime.wrap(function _callee$(_context) {
+	                        while (1) {
+	                            switch (_context.prev = _context.next) {
+	                                case 0:
+	                                    reducer = self[self[REDUCERS][action]];
+	
+	                                    if (!reducer) {
+	                                        _context.next = 11;
+	                                        break;
+	                                    }
+	
+	                                    if (_state) {
+	                                        self[STATE] = _state;
+	                                    }
+	                                    state = reducer.call.apply(reducer, [self].concat(params));
+	
+	                                    if (!(state instanceof Promise)) {
+	                                        _context.next = 10;
+	                                        break;
+	                                    }
+	
+	                                    _context.next = 7;
+	                                    return state;
+	
+	                                case 7:
+	                                    return _context.abrupt("return", _context.sent);
+	
+	                                case 10:
+	                                    return _context.abrupt("return", state);
+	
+	                                case 11:
+	                                case "end":
+	                                    return _context.stop();
+	                            }
 	                        }
-	                    });
-	                } else {
-	                    this[STATE] = state;
-	                    this[NOTIFY].apply(this, [action].concat(params));
-	                }
-	            }
+	                    }, _callee, this);
+	                }));
+	
+	                return function dispatch(_x) {
+	                    return _ref.apply(this, arguments);
+	                };
+	            }();
+	
+	            var run = function () {
+	                var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(next) {
+	                    var _this3 = this;
+	
+	                    var i;
+	                    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+	                        while (1) {
+	                            switch (_context3.prev = _context3.next) {
+	                                case 0:
+	                                    i = middlewares.length;
+	
+	                                    while (i--) {
+	                                        next = function (middleware, next) {
+	                                            return function () {
+	                                                var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(_state) {
+	                                                    var state;
+	                                                    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	                                                        while (1) {
+	                                                            switch (_context2.prev = _context2.next) {
+	                                                                case 0:
+	                                                                    state = _state || self.getState();
+	                                                                    _context2.next = 3;
+	                                                                    return middleware.apply(undefined, [next, state, action].concat(params));
+	
+	                                                                case 3:
+	                                                                    return _context2.abrupt("return", _context2.sent);
+	
+	                                                                case 4:
+	                                                                case "end":
+	                                                                    return _context2.stop();
+	                                                            }
+	                                                        }
+	                                                    }, _callee2, _this3);
+	                                                }));
+	
+	                                                return function (_x3) {
+	                                                    return _ref3.apply(this, arguments);
+	                                                };
+	                                            }();
+	                                        }(middlewares[i], next);
+	                                    }
+	                                    _context3.next = 4;
+	                                    return next();
+	
+	                                case 4:
+	                                    return _context3.abrupt("return", _context3.sent);
+	
+	                                case 5:
+	                                case "end":
+	                                    return _context3.stop();
+	                            }
+	                        }
+	                    }, _callee3, this);
+	                }));
+	
+	                return function run(_x2) {
+	                    return _ref2.apply(this, arguments);
+	                };
+	            }();
+	
+	            var self = this;
+	            ;
+	            var middlewares = this[MIDDLEWARES];
+	
+	            run(dispatch).then(function (state) {
+	                self[STATE] = state;
+	                self[NOTIFY](action, params);
+	            }).catch(function (e) {
+	                console.log(e.stack || e);
+	            });
 	        }
 	    }, {
 	        key: "getState",
@@ -231,6 +333,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                });
 	            };
 	        }
+	    }, {
+	        key: "inject",
+	        value: function inject() {
+	            var _MIDDLEWARES;
+	
+	            (_MIDDLEWARES = this[MIDDLEWARES]).push.apply(_MIDDLEWARES, arguments);
+	        }
 	    }]);
 	
 	    return Store;
@@ -243,6 +352,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return function (prototype, key) {
 	        prototype[REDUCERS] = prototype[REDUCERS] || {};
 	        prototype[REDUCERS][action] = key;
+	    };
+	}
+	function Inject() {
+	    for (var _len4 = arguments.length, middlewares = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+	        middlewares[_key4] = arguments[_key4];
+	    }
+	
+	    return function (obj) {
+	        var _obj$prototype$MIDDLE;
+	
+	        obj.prototype[MIDDLEWARES] = obj.prototype[MIDDLEWARES] || [];
+	        (_obj$prototype$MIDDLE = obj.prototype[MIDDLEWARES]).push.apply(_obj$prototype$MIDDLE, middlewares);
 	    };
 	}
 
