@@ -142,7 +142,7 @@ describe('test', () => {
             const state = a.getState();
             assert.equal(state.a, '2');
             assert.equal(state.b, '1');
-        }, 500);
+        }, 900);
         setTimeout(done, 1000);
     });
 
