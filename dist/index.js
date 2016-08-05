@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ function(module, exports) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -125,7 +125,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    _createClass(Store, [{
-	        key: "subscribe",
+	        key: 'subscribe',
 	        value: function subscribe(listener) {
 	            var _this2 = this;
 	
@@ -135,7 +135,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 	        }
 	    }, {
-	        key: "dispatch",
+	        key: 'dispatch',
 	        value: function dispatch(action) {
 	            for (var _len2 = arguments.length, params = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
 	                params[_key2 - 1] = arguments[_key2];
@@ -169,13 +169,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                    return state;
 	
 	                                case 7:
-	                                    return _context.abrupt("return", _context.sent);
+	                                    return _context.abrupt('return', _context.sent);
 	
 	                                case 10:
-	                                    return _context.abrupt("return", state);
+	                                    return _context.abrupt('return', state);
 	
 	                                case 11:
-	                                case "end":
+	                                case 'end':
 	                                    return _context.stop();
 	                            }
 	                        }
@@ -212,10 +212,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                                                    return middleware.apply(undefined, [next, state, action].concat(params));
 	
 	                                                                case 3:
-	                                                                    return _context2.abrupt("return", _context2.sent);
+	                                                                    return _context2.abrupt('return', _context2.sent);
 	
 	                                                                case 4:
-	                                                                case "end":
+	                                                                case 'end':
 	                                                                    return _context2.stop();
 	                                                            }
 	                                                        }
@@ -232,10 +232,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                    return next();
 	
 	                                case 4:
-	                                    return _context3.abrupt("return", _context3.sent);
+	                                    return _context3.abrupt('return', _context3.sent);
 	
 	                                case 5:
-	                                case "end":
+	                                case 'end':
 	                                    return _context3.stop();
 	                            }
 	                        }
@@ -259,12 +259,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	            });
 	        }
 	    }, {
-	        key: "getState",
+	        key: 'getState',
 	        value: function getState() {
 	            return this[STATE];
 	        }
 	    }, {
-	        key: "onUpdate",
+	        key: 'onUpdate',
 	        value: function onUpdate() {
 	            for (var _len3 = arguments.length, actions = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
 	                actions[_key3] = arguments[_key3];
@@ -334,7 +334,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	            };
 	        }
 	    }, {
-	        key: "inject",
+	        key: 'connect',
+	        value: function connect(schema) {
+	            var self = this;
+	            return function (obj) {
+	                var METHOD = Symbol();
+	                obj.prototype[METHOD] = function (state) {
+	                    var s = {};
+	                    if (schema) {
+	
+	                        for (var key in schema) {
+	                            var match = schema[key];
+	                            if (typeof match === 'function') {
+	                                s[key] = schema[key](state);
+	                            } else {
+	                                s[key] = state[schema[key]];
+	                            }
+	                        }
+	                    } else {
+	                        s = state;
+	                    }
+	                    this.setState(s);
+	                };
+	                self.onUpdate()(obj.prototype, METHOD);
+	            };
+	        }
+	    }, {
+	        key: 'inject',
 	        value: function inject() {
 	            var _MIDDLEWARES;
 	
