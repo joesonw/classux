@@ -1,3 +1,5 @@
+export { Reducer };
+
 const UPDATER = Symbol();
 const DISPOSER = Symbol();
 
@@ -95,7 +97,8 @@ export default class Store {
         }
     }
 }
-export function Reducer(action) {
+
+function Reducer(action) {
     return (prototype, key) => {
         prototype[REDUCERS] = prototype[REDUCERS] || {};
         prototype[REDUCERS][action] = key;

@@ -15,19 +15,17 @@ module.exports = {
       			exclude: /(node_modules|bower_components)/,
 				loader: 'babel-loader',
 				query: {
-					cacheDirectory: true,
     				plugins: [],
 					presets: ['es2015'],
 				}
 			}
 		]
 	},
-    entry: {
-		app: [path.resolve(__dirname, 'src/index.js')],
-	},
+    entry: path.resolve(__dirname, 'src/index.js'),
     output: {
 		path: path.resolve(__dirname, 'dist'),
         filename: 'index.js',
+    	libraryTarget: 'umd',
         library: 'Classux',
     },
 };
