@@ -26,7 +26,7 @@ module.exports = {
 		]
 	},
     entry: {
-		app: ['babel-polyfill', path.resolve(__dirname, 'src/test.js')],
+		app: [path.resolve(__dirname, 'src/test.js')],
 	},
     output: {
 		path: path.resolve(__dirname, 'dist'),

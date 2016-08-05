@@ -333,4 +333,41 @@ describe('test', () => {
             done();
         }, 100);
     });
+
+    it ('should connect react class', (done) => {
+        class A extends Store {
+            constructor() {
+                super({
+                    a: '1',
+                    b: '2',
+                });
+            }
+
+            @Reducer('test')
+            async test() {
+                await Sleep(1);
+                return {
+                    a: '2',
+                    b: '1',
+                }
+            }
+        }
+        const a = new A();
+
+        @a.connect({
+            A: state => state.a,
+            B: 'b',
+        })
+        class B {
+            setState(state) {
+                assert.equal(state.A, '2');
+                assert.equal(state.B, '1');
+                done();
+            }
+        }
+        const b = new B();
+        b.componentDidMount();
+        a.dispatch('test');
+    });
+
 });

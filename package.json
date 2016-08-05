@@ -7,7 +7,7 @@
   "scripts": {
     "test": "npm run build && npm run build-test && npm run mocha",
     "build-test": "./node_modules/.bin/webpack --config webpack.test.config.js",
-    "mocha": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- dist/test.js --require source-map-support/register",
+    "mocha": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- dist/test.js --require source-map-support/register --require babel-polyfill",
     "build": "./node_modules/.bin/webpack"
   },
   "author": "Qiaosen Huang",

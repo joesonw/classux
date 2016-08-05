@@ -120,6 +120,31 @@ export default class Store {
         }
     }
 
+    connect(schema) {
+        const self = this;
+        return (obj) =>  {
+            const METHOD = Symbol();
+            obj.prototype[METHOD] = function(state) {
+                let s = {};
+                if (schema) {
+
+                    for (const key in schema) {
+                        const match = schema[key];
+                        if (typeof(match) === 'function') {
+                            s[key] = schema[key](state);
+                        } else {
+                            s[key] = state[schema[key]];
+                        }
+                    }
+                } else {
+                    s = state;
+                }
+                this.setState(s);
+            }
+            self.onUpdate()(obj.prototype, METHOD);
+        }
+    }
+
     inject(...middlwares) {
         this[MIDDLEWARES].push(...middlwares);
     }
