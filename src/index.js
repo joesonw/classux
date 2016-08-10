@@ -37,7 +37,6 @@ export default class Store {
         const self = this;
         async function dispatch(_state) {
             const reducer = self[self[REDUCERS][action]];
-
             if (reducer) {
                 if (_state) {
                     self[STATE] = _state;
@@ -99,7 +98,7 @@ export default class Store {
                                 }
                             }
                         }
-                    });
+                    })  ;
                     if (componentDidMount) {
                         componentDidMount.call(this);
                     }
@@ -126,8 +125,9 @@ export default class Store {
             const METHOD = Symbol();
             obj.prototype[METHOD] = function(state) {
                 let s = {};
-                if (schema) {
-
+                if (typeof(schema) === 'string') {
+                    s[schema] = state;
+                } else if (schema) {
                     for (const key in schema) {
                         const match = schema[key];
                         if (typeof(match) === 'function') {

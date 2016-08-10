@@ -3,5 +3,5 @@ node_js:
     - 4
     - 6
 sudo: false
-script: npm install; npm test
+script: npm install; npm test; npm run cover
 after_script: npm install coveralls@2 && cat ./coverage/lcov.info | coveralls

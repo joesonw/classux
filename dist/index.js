@@ -341,8 +341,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var METHOD = Symbol();
 	                obj.prototype[METHOD] = function (state) {
 	                    var s = {};
-	                    if (schema) {
-	
+	                    if (typeof schema === 'string') {
+	                        s[schema] = state;
+	                    } else if (schema) {
 	                        for (var key in schema) {
 	                            var match = schema[key];
 	                            if (typeof match === 'function') {

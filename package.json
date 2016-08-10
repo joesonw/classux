@@ -6,8 +6,10 @@
   "typings": "index.d.ts",
   "scripts": {
     "test": "npm run build && npm run build-test && npm run mocha",
+    "cover": "npm run build && npm run build-test && npm run istanbul",
     "build-test": "./node_modules/.bin/webpack --config webpack.test.config.js",
-    "mocha": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- dist/test.js --require source-map-support/register --require babel-polyfill",
+    "istanbul": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- dist/test.js --require source-map-support/register --require babel-polyfill",
+    "mocha": "./node_modules/.bin/_mocha  --require source-map-support/register --require babel-polyfill dist/test.js",
     "build": "./node_modules/.bin/webpack"
   },
   "author": "Qiaosen Huang",
