@@ -290,11 +290,6 @@ var Classux =
 	            done();
 	        });
 	        a.dispatch('test');
-	        setImmediate(function () {
-	            var state = a.getState();
-	            _chai.assert.equal(state.a, '1');
-	            _chai.assert.equal(state.b, '2');
-	        });
 	    });
 	
 	    it('should unsubscribe', function (done) {
@@ -920,6 +915,80 @@ var Classux =
 	        b.componentDidMount();
 	        a.dispatch('test');
 	    });
+	
+	    it('should connect specified react state', function (done) {
+	        var _dec19, _desc15, _value15, _class18, _dec20, _class19;
+	
+	        var A = (_dec19 = (0, _.Reducer)('test'), (_class18 = function (_Store13) {
+	            _inherits(A, _Store13);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
+	            }
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref12 = _asyncToGenerator(regeneratorRuntime.mark(function _callee12() {
+	                        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+	                            while (1) {
+	                                switch (_context12.prev = _context12.next) {
+	                                    case 0:
+	                                        _context12.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context12.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context12.stop();
+	                                }
+	                            }
+	                        }, _callee12, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref12.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class18.prototype, 'test', [_dec19], Object.getOwnPropertyDescriptor(_class18.prototype, 'test'), _class18.prototype)), _class18));
+	
+	        var a = new A();
+	
+	        var B = (_dec20 = a.connect('test', 'a'), _dec20(_class19 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'setState',
+	                value: function setState(state) {
+	                    _chai.assert.equal(state.test, '2');
+	                    done();
+	                }
+	            }]);
+	
+	            return B;
+	        }()) || _class19);
+	
+	        var b = new B();
+	        b.componentDidMount();
+	        a.dispatch('test');
+	    });
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).setImmediate))
 
@@ -1428,13 +1497,15 @@ var Classux =
 	        }
 	    }, {
 	        key: 'connect',
-	        value: function connect(schema) {
+	        value: function connect(schema, source) {
 	            var self = this;
 	            return function (obj) {
 	                var METHOD = Symbol();
 	                obj.prototype[METHOD] = function (state) {
 	                    var s = {};
-	                    if (typeof schema === 'string') {
+	                    if (typeof schema === 'string' && typeof source === 'string') {
+	                        s[schema] = state[source];
+	                    } else if (typeof schema === 'string') {
 	                        s[schema] = state;
 	                    } else if (schema) {
 	                        for (var key in schema) {

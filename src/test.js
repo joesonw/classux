@@ -107,11 +107,6 @@ describe('test', () => {
             done();
         });
         a.dispatch('test');
-        setImmediate(() => {
-            const state = a.getState();
-            assert.equal(state.a, '1');
-            assert.equal(state.b, '2');
-        });
     });
 
     it ('should unsubscribe', (done) => {
@@ -395,6 +390,38 @@ describe('test', () => {
             setState(state) {
                 assert.equal(state.test.a, '2');
                 assert.equal(state.test.b, '1');
+                done();
+            }
+        }
+        const b = new B();
+        b.componentDidMount();
+        a.dispatch('test');
+    });
+
+    it ('should connect specified react state', (done) => {
+        class A extends Store {
+            constructor() {
+                super({
+                    a: '1',
+                    b: '2',
+                });
+            }
+
+            @Reducer('test')
+            async test() {
+                await Sleep(1);
+                return {
+                    a: '2',
+                    b: '1',
+                }
+            }
+        }
+        const a = new A();
+
+        @a.connect('test', 'a')
+        class B {
+            setState(state) {
+                assert.equal(state.test, '2');
                 done();
             }
         }

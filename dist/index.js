@@ -335,13 +335,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: 'connect',
-	        value: function connect(schema) {
+	        value: function connect(schema, source) {
 	            var self = this;
 	            return function (obj) {
 	                var METHOD = Symbol();
 	                obj.prototype[METHOD] = function (state) {
 	                    var s = {};
-	                    if (typeof schema === 'string') {
+	                    if (typeof schema === 'string' && typeof source === 'string') {
+	                        s[schema] = state[source];
+	                    } else if (typeof schema === 'string') {
 	                        s[schema] = state;
 	                    } else if (schema) {
 	                        for (var key in schema) {

@@ -119,13 +119,16 @@ export default class Store {
         }
     }
 
-    connect(schema) {
+    connect(schema, source) {
         const self = this;
         return (obj) =>  {
             const METHOD = Symbol();
             obj.prototype[METHOD] = function(state) {
                 let s = {};
-                if (typeof(schema) === 'string') {
+                if (typeof(schema) === 'string' &&
+                          typeof(source) === 'string') {
+                    s[schema] = state[source];
+                } else if (typeof(schema) === 'string') {
                     s[schema] = state;
                 } else if (schema) {
                     for (const key in schema) {
