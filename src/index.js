@@ -90,11 +90,11 @@ export default class Store {
                 prototype.componentDidMount = function() {
                     this[DISPOSER] = self.subscribe((state, action) => {
                         for (const item of this[UPDATER]) {
-                            if (actions.length === 0) {
-                                this[key](state, action);
+                            if (item.actions.length === 0) {
+                                this[item.method](state, action);
                             } else {
-                                if (actions.indexOf(action) !== -1) {
-                                    this[key](state, action);
+                                if (item.actions.indexOf(action) !== -1) {
+                                    this[item.method](state, action);
                                 }
                             }
                         }

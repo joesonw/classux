@@ -290,11 +290,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                                    for (var _iterator2 = _this4[UPDATER][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
 	                                        var item = _step2.value;
 	
-	                                        if (actions.length === 0) {
-	                                            _this4[key](state, action);
+	                                        if (item.actions.length === 0) {
+	                                            _this4[item.method](state, action);
 	                                        } else {
-	                                            if (actions.indexOf(action) !== -1) {
-	                                                _this4[key](state, action);
+	                                            if (item.actions.indexOf(action) !== -1) {
+	                                                _this4[item.method](state, action);
 	                                            }
 	                                        }
 	                                    }
