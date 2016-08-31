@@ -449,6 +449,77 @@ describe('test', () => {
         a.dispatch('test');
     });
 
+    it ('should connect to multiple react state ', (done) => {
+        class A extends Store {
+            constructor() {
+                super({
+                    a: 1,
+                });
+            }
+
+            @Reducer('test')
+            async test() {
+                await Sleep(1);
+                return {
+                    a: 2,
+                }
+            }
+        }
+        const a = new A();
+
+        class B extends Store {
+            constructor() {
+                super({
+                    b: 1,
+                });
+            }
+
+            @Reducer('test')
+            async test() {
+                await Sleep(500);
+                return {
+                    b: 2,
+                }
+            }
+        }
+        const b = new B();
+
+        @a.connect('testA')
+        @b.connect('testB')
+        class C {
+            constructor() {
+              this.state = {
+                testA: {
+                  a: 1,
+                },
+                testB: {
+                  b: 1,
+                },
+              }
+            }
+            setState(state) {
+                if (this.state.testA.a === 1) {
+                    assert.equal(state.testA.a, 2);
+                    assert.equal(state.testA.b, undefined);
+                    this.state.testA = state.testA;
+                } else {
+                    assert.equal(state.testB.b, 2);
+                    assert.equal(state.testB.a, undefined);
+                    this.state.testB = state.testB;
+                }
+            }
+        }
+        const c = new C();
+        c.componentDidMount();
+        a.dispatch('test');
+        b.dispatch('test');
+        setTimeout(() => {
+            assert.equal(c.state.testA.a, 2);
+            assert.equal(c.state.testB.b, 2);
+            done();
+        }, 1000)
+    });
+
     it ('should connect to default state ', (done) => {
         class A extends Store {
             constructor() {

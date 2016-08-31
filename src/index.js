@@ -88,24 +88,29 @@ export default class Store {
                 const componentWillUnmount = prototype.componentWillUnmount;
 
                 prototype.componentDidMount = function() {
-                    this[DISPOSER] = self.subscribe((state, action) => {
-                        for (const item of this[UPDATER]) {
-                            if (item.actions.length === 0) {
-                                this[item.method](state, action);
-                            } else {
-                                if (item.actions.indexOf(action) !== -1) {
-                                    this[item.method](state, action);
+                    this[DISPOSER] = [];
+                    for (const item of this[UPDATER]) {
+                        this[DISPOSER].push(item.store.subscribe(((method, actions) =>
+                            (state, action) => {
+                                if (actions.length === 0) {
+                                    this[method](state, action);
+                                } else {
+                                    if (actions.indexOf(action) !== -1) {
+                                        this[method](state, action);
+                                    }
                                 }
                             }
-                        }
-                    })  ;
+                        )(item.method, item.actions)));
+                    }
                     if (componentDidMount) {
                         componentDidMount.call(this);
                     }
                 }
 
                 prototype.componentWillUnmount = function() {
-                    this[DISPOSER]();
+                    for (const disposer of this[DISPOSER]) {
+                        disposer();
+                    }
                     if (componentWillUnmount) {
                         componentWillUnmount.call(this);
                     }
@@ -115,6 +120,7 @@ export default class Store {
             prototype[UPDATER].push({
                 method: key,
                 actions,
+                store: self,
             });
         }
     }

@@ -52,25 +52,19 @@ var Classux =
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(setImmediate) {'use strict';
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _ = __webpack_require__(2);
+	var _ = __webpack_require__(4);
 	
 	var _2 = _interopRequireDefault(_);
 	
-	var _chai = __webpack_require__(3);
+	var _chai = __webpack_require__(5);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
 	    var desc = {};
@@ -101,574 +95,1458 @@ var Classux =
 	    return desc;
 	}
 	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
 	var Sleep = function Sleep(ms) {
 	    return new Promise(function (resolve) {
 	        return setTimeout(resolve, ms);
 	    });
 	};
 	
-	/*
-	describe('test', () => {
-	    it ('should echo back default state', () => {
-	        class A extends Store {
-	            constructor() {
-	                super({
+	describe('test', function () {
+	    it('should echo back default state', function () {
+	        var A = function (_Store) {
+	            _inherits(A, _Store);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
 	                    a: '1',
-	                    b: '2',
-	                });
+	                    b: '2'
+	                }));
 	            }
-	        }
-	        const a = new A();
-	        const state = a.getState();
-	        assert.equal(state.a, '1');
-	        assert.equal(state.b, '2');
+	
+	            return A;
+	        }(_2.default);
+	
+	        var a = new A();
+	        var state = a.getState();
+	        _chai.assert.equal(state.a, '1');
+	        _chai.assert.equal(state.b, '2');
 	    });
 	
-	    it ('should respond to sync reducer', (done) => {
-	        class A extends Store {
-	            constructor() {
-	                super({
+	    it('should respond to sync reducer', function (done) {
+	        var _dec, _desc, _value, _class;
+	
+	        var A = (_dec = (0, _.Reducer)('test'), (_class = function (_Store2) {
+	            _inherits(A, _Store2);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
 	                    a: '1',
-	                    b: '2',
-	                });
+	                    b: '2'
+	                }));
 	            }
-	            @Reducer('test')
-	            test() {
-	                return {
-	                    a: '2',
-	                    b: '1',
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function test() {
+	                    return {
+	                        a: '2',
+	                        b: '1'
+	                    };
 	                }
-	            }
-	        }
-	        const a = new A();
-	        a.dispatch('test')
-	        setImmediate(() => {
-	            const state = a.getState();
-	            assert.equal(state.a, '2');
-	            assert.equal(state.b, '1');
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class.prototype, 'test', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'test'), _class.prototype)), _class));
+	
+	        var a = new A();
+	        a.dispatch('test');
+	        setImmediate(function () {
+	            var state = a.getState();
+	            _chai.assert.equal(state.a, '2');
+	            _chai.assert.equal(state.b, '1');
 	            done();
 	        });
 	    });
 	
-	    it ('should respond to async reducer', (done) => {
-	        class A extends Store {
-	            constructor() {
-	                super({
+	    it('should respond to async reducer', function (done) {
+	        var _dec2, _desc2, _value2, _class2;
+	
+	        var A = (_dec2 = (0, _.Reducer)('test'), (_class2 = function (_Store3) {
+	            _inherits(A, _Store3);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
 	                    a: '1',
-	                    b: '2',
-	                });
+	                    b: '2'
+	                }));
 	            }
 	
-	            @Reducer('test')
-	            async test() {
-	                await Sleep(1);
-	                return {
-	                    a: '2',
-	                    b: '1',
-	                }
-	            }
-	        }
-	        const a = new A();
-	        Sleep(100).then(res => {
-	            const state = a.getState();
-	            assert.equal(state.a, '2');
-	            assert.equal(state.b, '1');
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+	                        return regeneratorRuntime.wrap(function _callee$(_context) {
+	                            while (1) {
+	                                switch (_context.prev = _context.next) {
+	                                    case 0:
+	                                        _context.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context.stop();
+	                                }
+	                            }
+	                        }, _callee, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class2.prototype, 'test', [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, 'test'), _class2.prototype)), _class2));
+	
+	        var a = new A();
+	        Sleep(100).then(function (res) {
+	            var state = a.getState();
+	            _chai.assert.equal(state.a, '2');
+	            _chai.assert.equal(state.b, '1');
 	            done();
-	        })
+	        });
 	        a.dispatch('test');
-	        const state = a.getState();
-	        assert.equal(state.a, '1');
-	        assert.equal(state.b, '2');
-	
+	        var state = a.getState();
+	        _chai.assert.equal(state.a, '1');
+	        _chai.assert.equal(state.b, '2');
 	    });
 	
-	    it ('should call subscribers', (done) => {
-	        class A extends Store {
-	            constructor() {
-	                super({
+	    it('should call subscribers', function (done) {
+	        var _dec3, _desc3, _value3, _class3;
+	
+	        var A = (_dec3 = (0, _.Reducer)('test'), (_class3 = function (_Store4) {
+	            _inherits(A, _Store4);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
 	                    a: '1',
-	                    b: '2',
-	                });
+	                    b: '2'
+	                }));
 	            }
 	
-	            @Reducer('test')
-	            async test() {
-	                await Sleep(1);
-	                return {
-	                    a: '2',
-	                    b: '1',
-	                }
-	            }
-	        }
-	        const a = new A();
-	        a.subscribe(state => {
-	            assert.equal(state.a, '2');
-	            assert.equal(state.b, '1');
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+	                        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+	                            while (1) {
+	                                switch (_context2.prev = _context2.next) {
+	                                    case 0:
+	                                        _context2.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context2.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context2.stop();
+	                                }
+	                            }
+	                        }, _callee2, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref2.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class3.prototype, 'test', [_dec3], Object.getOwnPropertyDescriptor(_class3.prototype, 'test'), _class3.prototype)), _class3));
+	
+	        var a = new A();
+	        a.subscribe(function (state) {
+	            _chai.assert.equal(state.a, '2');
+	            _chai.assert.equal(state.b, '1');
 	            done();
 	        });
 	        a.dispatch('test');
 	    });
 	
-	    it ('should unsubscribe', (done) => {
-	        class A extends Store {
-	            constructor() {
-	                super({
+	    it('should unsubscribe', function (done) {
+	        var _dec4, _desc4, _value4, _class4;
+	
+	        var A = (_dec4 = (0, _.Reducer)('test'), (_class4 = function (_Store5) {
+	            _inherits(A, _Store5);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
 	                    a: '1',
-	                    b: '2',
-	                });
+	                    b: '2'
+	                }));
 	            }
 	
-	            @Reducer('test')
-	            async test() {
-	                return {
-	                    a: '2',
-	                    b: '1',
-	                }
-	            }
-	        }
-	        const a = new A();
-	        const dispose = a.subscribe(state => {
-	            assert.isNull('this should not be triggered');
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+	                        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+	                            while (1) {
+	                                switch (_context3.prev = _context3.next) {
+	                                    case 0:
+	                                        return _context3.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 1:
+	                                    case 'end':
+	                                        return _context3.stop();
+	                                }
+	                            }
+	                        }, _callee3, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref3.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class4.prototype, 'test', [_dec4], Object.getOwnPropertyDescriptor(_class4.prototype, 'test'), _class4.prototype)), _class4));
+	
+	        var a = new A();
+	        var dispose = a.subscribe(function (state) {
+	            _chai.assert.isNull('this should not be triggered');
 	        });
 	        dispose();
 	        a.dispatch('test');
-	        setTimeout(() => {
-	            const state = a.getState();
-	            assert.equal(state.a, '2');
-	            assert.equal(state.b, '1');
+	        setTimeout(function () {
+	            var state = a.getState();
+	            _chai.assert.equal(state.a, '2');
+	            _chai.assert.equal(state.b, '1');
 	        }, 1800);
 	        setTimeout(done, 1900);
 	    });
 	
-	    it ('should call @onUpdate methods', (done) => {
-	        class A extends Store {
-	            constructor() {
-	                super({
+	    it('should call @onUpdate methods', function (done) {
+	        var _dec5, _desc5, _value5, _class5, _dec6, _desc6, _value6, _class6;
+	
+	        var A = (_dec5 = (0, _.Reducer)('test'), (_class5 = function (_Store6) {
+	            _inherits(A, _Store6);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
 	                    a: '1',
-	                    b: '2',
-	                });
+	                    b: '2'
+	                }));
 	            }
 	
-	            @Reducer('test')
-	            async test() {
-	                await Sleep(1);
-	                return {
-	                    a: '2',
-	                    b: '1',
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+	                        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+	                            while (1) {
+	                                switch (_context4.prev = _context4.next) {
+	                                    case 0:
+	                                        _context4.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context4.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context4.stop();
+	                                }
+	                            }
+	                        }, _callee4, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref4.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class5.prototype, 'test', [_dec5], Object.getOwnPropertyDescriptor(_class5.prototype, 'test'), _class5.prototype)), _class5));
+	
+	        var a = new A();
+	
+	        var B = (_dec6 = a.onUpdate(), (_class6 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'onUpdate',
+	                value: function onUpdate(state) {
+	                    _chai.assert.equal(state.a, '2');
+	                    _chai.assert.equal(state.b, '1');
+	                    done();
 	                }
-	            }
-	        }
-	        const a = new A();
+	            }]);
 	
-	        class B {
-	            @a.onUpdate()
-	            onUpdate(state) {
-	                assert.equal(state.a, '2');
-	                assert.equal(state.b, '1');
-	                done();
-	            }
-	        }
-	        const b = new B();
+	            return B;
+	        }(), (_applyDecoratedDescriptor(_class6.prototype, 'onUpdate', [_dec6], Object.getOwnPropertyDescriptor(_class6.prototype, 'onUpdate'), _class6.prototype)), _class6));
+	
+	        var b = new B();
 	        b.componentDidMount();
 	        a.dispatch('test');
-	        const state = a.getState();
-	        assert.equal(state.a, '1');
-	        assert.equal(state.b, '2');
+	        var state = a.getState();
+	        _chai.assert.equal(state.a, '1');
+	        _chai.assert.equal(state.b, '2');
 	    });
 	
-	    it ('should call @onUpdate methods on desired actions', (done) => {
-	        class A extends Store {
-	            constructor() {
-	                super({
+	    it('should call @onUpdate methods on desired actions', function (done) {
+	        var _dec7, _dec8, _desc7, _value7, _class7, _dec9, _desc8, _value8, _class8;
+	
+	        var A = (_dec7 = (0, _.Reducer)('test'), _dec8 = (0, _.Reducer)('test2'), (_class7 = function (_Store7) {
+	            _inherits(A, _Store7);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
 	                    a: '1',
-	                    b: '2',
-	                });
+	                    b: '2'
+	                }));
 	            }
 	
-	            @Reducer('test')
-	            async test() {
-	                await Sleep(1);
-	                return {
-	                    a: '2',
-	                    b: '1',
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5() {
+	                        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+	                            while (1) {
+	                                switch (_context5.prev = _context5.next) {
+	                                    case 0:
+	                                        _context5.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context5.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context5.stop();
+	                                }
+	                            }
+	                        }, _callee5, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref5.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }, {
+	                key: 'test',
+	                value: function () {
+	                    var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6() {
+	                        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+	                            while (1) {
+	                                switch (_context6.prev = _context6.next) {
+	                                    case 0:
+	                                        _context6.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context6.abrupt('return', {
+	                                            a: '3',
+	                                            b: '2'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context6.stop();
+	                                }
+	                            }
+	                        }, _callee6, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref6.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class7.prototype, 'test', [_dec7], Object.getOwnPropertyDescriptor(_class7.prototype, 'test'), _class7.prototype), _applyDecoratedDescriptor(_class7.prototype, 'test', [_dec8], Object.getOwnPropertyDescriptor(_class7.prototype, 'test'), _class7.prototype)), _class7));
+	
+	        var a = new A();
+	
+	        var B = (_dec9 = a.onUpdate('test2'), (_class8 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'onUpdate',
+	                value: function onUpdate(state) {
+	                    _chai.assert.equal(state.a, '3');
+	                    _chai.assert.equal(state.b, '2');
+	                    done();
 	                }
-	            }
+	            }]);
 	
-	            @Reducer('test2')
-	            async test() {
-	                await Sleep(1);
-	                return {
-	                    a: '3',
-	                    b: '2',
-	                }
-	            }
-	        }
-	        const a = new A();
+	            return B;
+	        }(), (_applyDecoratedDescriptor(_class8.prototype, 'onUpdate', [_dec9], Object.getOwnPropertyDescriptor(_class8.prototype, 'onUpdate'), _class8.prototype)), _class8));
 	
-	        class B {
-	            @a.onUpdate('test2')
-	            onUpdate(state) {
-	                assert.equal(state.a, '3');
-	                assert.equal(state.b, '2');
-	                done();
-	            }
-	        }
-	        const b = new B();
+	        var b = new B();
 	        b.componentDidMount();
 	        a.dispatch('test');
 	        a.dispatch('test2');
-	        const state = a.getState();
-	        assert.equal(state.a, '1');
-	        assert.equal(state.b, '2');
+	        var state = a.getState();
+	        _chai.assert.equal(state.a, '1');
+	        _chai.assert.equal(state.b, '2');
 	    });
-	    */
 	
-	it('should call @onUpdate methods on multiple actions', function (done) {
-	    var _dec, _dec2, _desc, _value, _class, _dec3, _dec4, _desc2, _value2, _class2;
+	    it('should call @onUpdate methods on multiple actions', function (done) {
+	        var _dec10, _dec11, _desc9, _value9, _class9, _dec12, _dec13, _desc10, _value10, _class10;
 	
-	    var A = (_dec = (0, _.Reducer)('test'), _dec2 = (0, _.Reducer)('test2'), (_class = function (_Store) {
-	        _inherits(A, _Store);
+	        var A = (_dec10 = (0, _.Reducer)('test'), _dec11 = (0, _.Reducer)('test2'), (_class9 = function (_Store8) {
+	            _inherits(A, _Store8);
 	
-	        function A() {
-	            _classCallCheck(this, A);
+	            function A() {
+	                _classCallCheck(this, A);
 	
-	            return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
-	                a: '1',
-	                b: '2'
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
+	            }
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7() {
+	                        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+	                            while (1) {
+	                                switch (_context7.prev = _context7.next) {
+	                                    case 0:
+	                                        _context7.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context7.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context7.stop();
+	                                }
+	                            }
+	                        }, _callee7, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref7.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }, {
+	                key: 'test2',
+	                value: function () {
+	                    var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8() {
+	                        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+	                            while (1) {
+	                                switch (_context8.prev = _context8.next) {
+	                                    case 0:
+	                                        _context8.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context8.abrupt('return', {
+	                                            a: '3',
+	                                            b: '2'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context8.stop();
+	                                }
+	                            }
+	                        }, _callee8, this);
+	                    }));
+	
+	                    function test2() {
+	                        return _ref8.apply(this, arguments);
+	                    }
+	
+	                    return test2;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class9.prototype, 'test', [_dec10], Object.getOwnPropertyDescriptor(_class9.prototype, 'test'), _class9.prototype), _applyDecoratedDescriptor(_class9.prototype, 'test2', [_dec11], Object.getOwnPropertyDescriptor(_class9.prototype, 'test2'), _class9.prototype)), _class9));
+	
+	        var a = new A();
+	
+	        var B = (_dec12 = a.onUpdate('test2'), _dec13 = a.onUpdate('test'), (_class10 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'onUpdate2',
+	                value: function onUpdate2(state) {
+	                    _chai.assert.equal(state.a, '3');
+	                    _chai.assert.equal(state.b, '2');
+	                    done();
+	                }
+	            }, {
+	                key: 'onUpdate',
+	                value: function onUpdate(state) {
+	                    _chai.assert.equal(state.a, '2');
+	                    _chai.assert.equal(state.b, '1');
+	                }
+	            }]);
+	
+	            return B;
+	        }(), (_applyDecoratedDescriptor(_class10.prototype, 'onUpdate2', [_dec12], Object.getOwnPropertyDescriptor(_class10.prototype, 'onUpdate2'), _class10.prototype), _applyDecoratedDescriptor(_class10.prototype, 'onUpdate', [_dec13], Object.getOwnPropertyDescriptor(_class10.prototype, 'onUpdate'), _class10.prototype)), _class10));
+	
+	        var b = new B();
+	        b.componentDidMount();
+	        a.dispatch('test');
+	        a.dispatch('test2');
+	        var state = a.getState();
+	        _chai.assert.equal(state.a, '1');
+	        _chai.assert.equal(state.b, '2');
+	    });
+	
+	    it('should unmount @onUpdate methods', function (done) {
+	        var _dec14, _desc11, _value11, _class11, _dec15, _desc12, _value12, _class12;
+	
+	        var A = (_dec14 = (0, _.Reducer)('test'), (_class11 = function (_Store9) {
+	            _inherits(A, _Store9);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
+	            }
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9() {
+	                        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+	                            while (1) {
+	                                switch (_context9.prev = _context9.next) {
+	                                    case 0:
+	                                        _context9.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context9.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context9.stop();
+	                                }
+	                            }
+	                        }, _callee9, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref9.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class11.prototype, 'test', [_dec14], Object.getOwnPropertyDescriptor(_class11.prototype, 'test'), _class11.prototype)), _class11));
+	
+	        var a = new A();
+	
+	        var B = (_dec15 = a.onUpdate(), (_class12 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'onUpdate',
+	                value: function onUpdate(state) {
+	                    _chai.assert.isNull('this should not be triggered');
+	                }
+	            }]);
+	
+	            return B;
+	        }(), (_applyDecoratedDescriptor(_class12.prototype, 'onUpdate', [_dec15], Object.getOwnPropertyDescriptor(_class12.prototype, 'onUpdate'), _class12.prototype)), _class12));
+	
+	        var b = new B();
+	        b.componentDidMount();
+	        b.componentWillUnmount();
+	        a.dispatch('test');
+	        var state = a.getState();
+	        _chai.assert.equal(state.a, '1');
+	        _chai.assert.equal(state.b, '2');
+	        setTimeout(done, 100);
+	    });
+	
+	    it('should take params', function (done) {
+	        var _dec16, _desc13, _value13, _class13;
+	
+	        var A = (_dec16 = (0, _.Reducer)('test'), (_class13 = function (_Store10) {
+	            _inherits(A, _Store10);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
+	            }
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function test(a, b) {
+	                    return {
+	                        a: a,
+	                        b: b
+	                    };
+	                }
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class13.prototype, 'test', [_dec16], Object.getOwnPropertyDescriptor(_class13.prototype, 'test'), _class13.prototype)), _class13));
+	
+	        var a = new A();
+	        a.dispatch('test', '2', '1');
+	        setImmediate(function () {
+	            var state = a.getState();
+	            _chai.assert.equal(state.a, '2');
+	            _chai.assert.equal(state.b, '1');
+	            done();
+	        });
+	    });
+	
+	    it('should handle middlwares properly', function (done) {
+	        var _dec17, _dec18, _class14, _desc14, _value14, _class15;
+	
+	        var levelIn = function () {
+	            var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(next, state, action, counter) {
+	                var afterState;
+	                return regeneratorRuntime.wrap(function _callee10$(_context10) {
+	                    while (1) {
+	                        switch (_context10.prev = _context10.next) {
+	                            case 0:
+	                                _chai.assert.equal(state.counter, 4);
+	                                _chai.assert.equal(action, 'test');
+	                                _chai.assert.equal(counter, 1);
+	                                _context10.next = 5;
+	                                return next({ counter: 5 });
+	
+	                            case 5:
+	                                afterState = _context10.sent;
+	
+	                                _chai.assert.equal(afterState.counter, 1);
+	                                return _context10.abrupt('return', {
+	                                    counter: 2
+	                                });
+	
+	                            case 8:
+	                            case 'end':
+	                                return _context10.stop();
+	                        }
+	                    }
+	                }, _callee10, this);
 	            }));
-	        }
 	
-	        _createClass(A, [{
-	            key: 'test',
-	            value: function () {
-	                var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-	                    return regeneratorRuntime.wrap(function _callee$(_context) {
-	                        while (1) {
-	                            switch (_context.prev = _context.next) {
-	                                case 0:
-	                                    _context.next = 2;
-	                                    return Sleep(1);
+	            return function levelIn(_x, _x2, _x3, _x4) {
+	                return _ref10.apply(this, arguments);
+	            };
+	        }();
 	
-	                                case 2:
-	                                    return _context.abrupt('return', {
-	                                        a: '2',
-	                                        b: '1'
-	                                    });
+	        var levelOut = function () {
+	            var _ref11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee11(next, state, action, counter) {
+	                var afterState;
+	                return regeneratorRuntime.wrap(function _callee11$(_context11) {
+	                    while (1) {
+	                        switch (_context11.prev = _context11.next) {
+	                            case 0:
+	                                _chai.assert.equal(state.counter, 0);
+	                                _chai.assert.equal(action, 'test');
+	                                _chai.assert.equal(counter, 1);
+	                                _context11.next = 5;
+	                                return next({ counter: 4 });
 	
-	                                case 3:
-	                                case 'end':
-	                                    return _context.stop();
-	                            }
+	                            case 5:
+	                                afterState = _context11.sent;
+	
+	                                _chai.assert.equal(afterState.counter, 2);
+	                                return _context11.abrupt('return', {
+	                                    counter: 3
+	                                });
+	
+	                            case 8:
+	                            case 'end':
+	                                return _context11.stop();
 	                        }
-	                    }, _callee, this);
+	                    }
+	                }, _callee11, this);
+	            }));
+	
+	            return function levelOut(_x5, _x6, _x7, _x8) {
+	                return _ref11.apply(this, arguments);
+	            };
+	        }();
+	
+	        var A = (_dec17 = (0, _.Inject)(levelOut, levelIn), _dec18 = (0, _.Reducer)('test'), _dec17(_class14 = (_class15 = function (_Store11) {
+	            _inherits(A, _Store11);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    counter: 0
 	                }));
+	            }
 	
-	                function test() {
-	                    return _ref.apply(this, arguments);
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function test(counter) {
+	                    _chai.assert.equal(this.getState().counter, 5);
+	                    return {
+	                        counter: counter
+	                    };
 	                }
+	            }]);
 	
-	                return test;
-	            }()
-	        }, {
-	            key: 'test2',
-	            value: function () {
-	                var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-	                    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-	                        while (1) {
-	                            switch (_context2.prev = _context2.next) {
-	                                case 0:
-	                                    _context2.next = 2;
-	                                    return Sleep(1);
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class15.prototype, 'test', [_dec18], Object.getOwnPropertyDescriptor(_class15.prototype, 'test'), _class15.prototype)), _class15)) || _class14);
 	
-	                                case 2:
-	                                    return _context2.abrupt('return', {
-	                                        a: '3',
-	                                        b: '2'
-	                                    });
+	        var a = new A();
+	        a.dispatch('test', 1);
+	        setTimeout(function () {
+	            var state = a.getState();
+	            _chai.assert.equal(state.counter, 3);
+	            done();
+	        }, 100);
+	    });
 	
-	                                case 3:
-	                                case 'end':
-	                                    return _context2.stop();
+	    it('should connect react class', function (done) {
+	        var _dec19, _desc15, _value15, _class16, _dec20, _class17;
+	
+	        var A = (_dec19 = (0, _.Reducer)('test'), (_class16 = function (_Store12) {
+	            _inherits(A, _Store12);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
+	            }
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref12 = _asyncToGenerator(regeneratorRuntime.mark(function _callee12() {
+	                        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+	                            while (1) {
+	                                switch (_context12.prev = _context12.next) {
+	                                    case 0:
+	                                        _context12.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context12.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context12.stop();
+	                                }
 	                            }
-	                        }
-	                    }, _callee2, this);
-	                }));
+	                        }, _callee12, this);
+	                    }));
 	
-	                function test2() {
-	                    return _ref2.apply(this, arguments);
+	                    function test() {
+	                        return _ref12.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class16.prototype, 'test', [_dec19], Object.getOwnPropertyDescriptor(_class16.prototype, 'test'), _class16.prototype)), _class16));
+	
+	        var a = new A();
+	
+	        var B = (_dec20 = a.connect({
+	            A: function A(state) {
+	                return state.a;
+	            },
+	            B: 'b'
+	        }), _dec20(_class17 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'setState',
+	                value: function setState(state) {
+	                    _chai.assert.equal(state.A, '2');
+	                    _chai.assert.equal(state.B, '1');
+	                    done();
 	                }
+	            }]);
 	
-	                return test2;
-	            }()
-	        }]);
+	            return B;
+	        }()) || _class17);
 	
-	        return A;
-	    }(_2.default), (_applyDecoratedDescriptor(_class.prototype, 'test', [_dec], Object.getOwnPropertyDescriptor(_class.prototype, 'test'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'test2', [_dec2], Object.getOwnPropertyDescriptor(_class.prototype, 'test2'), _class.prototype)), _class));
+	        var b = new B();
+	        b.componentDidMount();
+	        a.dispatch('test');
+	    });
 	
-	    var a = new A();
+	    it('should connect react state ', function (done) {
+	        var _dec21, _desc16, _value16, _class18, _dec22, _class19;
 	
-	    var B = (_dec3 = a.onUpdate('test2'), _dec4 = a.onUpdate('test'), (_class2 = function () {
-	        function B() {
-	            _classCallCheck(this, B);
-	        }
+	        var A = (_dec21 = (0, _.Reducer)('test'), (_class18 = function (_Store13) {
+	            _inherits(A, _Store13);
 	
-	        _createClass(B, [{
-	            key: 'onUpdate2',
-	            value: function onUpdate2(state) {
-	                _chai.assert.equal(state.a, '3');
-	                _chai.assert.equal(state.b, '2');
-	                done();
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
 	            }
-	        }, {
-	            key: 'onUpdate',
-	            value: function onUpdate(state) {
-	                console.log('called');
-	                _chai.assert.equal(state.a, '2');
-	                _chai.assert.equal(state.b, '1');
-	            }
-	        }]);
 	
-	        return B;
-	    }(), (_applyDecoratedDescriptor(_class2.prototype, 'onUpdate2', [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, 'onUpdate2'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onUpdate', [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, 'onUpdate'), _class2.prototype)), _class2));
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref13 = _asyncToGenerator(regeneratorRuntime.mark(function _callee13() {
+	                        return regeneratorRuntime.wrap(function _callee13$(_context13) {
+	                            while (1) {
+	                                switch (_context13.prev = _context13.next) {
+	                                    case 0:
+	                                        _context13.next = 2;
+	                                        return Sleep(1);
 	
-	    var b = new B();
-	    b.componentDidMount();
-	    a.dispatch('test');
-	    a.dispatch('test2');
-	    var state = a.getState();
-	    _chai.assert.equal(state.a, '1');
-	    _chai.assert.equal(state.b, '2');
-	});
-	/*
-	 it ('should unmount @onUpdate methods', (done) => {
-	    class A extends Store {
-	        constructor() {
-	            super({
-	                a: '1',
-	                b: '2',
-	            });
-	        }
-	         @Reducer('test')
-	        async test() {
-	            await Sleep(1);
-	            return {
-	                a: '2',
-	                b: '1',
+	                                    case 2:
+	                                        return _context13.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context13.stop();
+	                                }
+	                            }
+	                        }, _callee13, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref13.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class18.prototype, 'test', [_dec21], Object.getOwnPropertyDescriptor(_class18.prototype, 'test'), _class18.prototype)), _class18));
+	
+	        var a = new A();
+	
+	        var B = (_dec22 = a.connect('test'), _dec22(_class19 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
 	            }
-	        }
-	    }
-	    const a = new A();
-	     class B {
-	        @a.onUpdate()
-	        onUpdate(state) {
-	            assert.isNull('this should not be triggered');
-	        }
-	    }
-	    const b = new B();
-	    b.componentDidMount();
-	    b.componentWillUnmount();
-	    a.dispatch('test');
-	    const state = a.getState();
-	    assert.equal(state.a, '1');
-	    assert.equal(state.b, '2');
-	    setTimeout(done, 100);
-	});
-	 it ('should take params', (done) => {
-	    class A extends Store {
-	        constructor() {
-	            super({
-	                a: '1',
-	                b: '2',
-	            });
-	        }
-	        @Reducer('test')
-	        test(a, b) {
-	            return {
-	                a,
-	                b,
+	
+	            _createClass(B, [{
+	                key: 'setState',
+	                value: function setState(state) {
+	                    _chai.assert.equal(state.test.a, '2');
+	                    _chai.assert.equal(state.test.b, '1');
+	                    done();
+	                }
+	            }]);
+	
+	            return B;
+	        }()) || _class19);
+	
+	        var b = new B();
+	        b.componentDidMount();
+	        a.dispatch('test');
+	    });
+	
+	    it('should connect to multiple react state ', function (done) {
+	        var _dec23, _desc17, _value17, _class20, _dec24, _desc18, _value18, _class21, _dec25, _dec26, _class22;
+	
+	        var A = (_dec23 = (0, _.Reducer)('test'), (_class20 = function (_Store14) {
+	            _inherits(A, _Store14);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: 1
+	                }));
 	            }
-	        }
-	    }
-	    const a = new A();
-	    a.dispatch('test', '2', '1');
-	    setImmediate(() => {
-	        const state = a.getState();
-	        assert.equal(state.a, '2');
-	        assert.equal(state.b, '1');
-	        done();
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref14 = _asyncToGenerator(regeneratorRuntime.mark(function _callee14() {
+	                        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+	                            while (1) {
+	                                switch (_context14.prev = _context14.next) {
+	                                    case 0:
+	                                        _context14.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context14.abrupt('return', {
+	                                            a: 2
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context14.stop();
+	                                }
+	                            }
+	                        }, _callee14, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref14.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class20.prototype, 'test', [_dec23], Object.getOwnPropertyDescriptor(_class20.prototype, 'test'), _class20.prototype)), _class20));
+	
+	        var a = new A();
+	
+	        var B = (_dec24 = (0, _.Reducer)('test'), (_class21 = function (_Store15) {
+	            _inherits(B, _Store15);
+	
+	            function B() {
+	                _classCallCheck(this, B);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(B).call(this, {
+	                    b: 1
+	                }));
+	            }
+	
+	            _createClass(B, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref15 = _asyncToGenerator(regeneratorRuntime.mark(function _callee15() {
+	                        return regeneratorRuntime.wrap(function _callee15$(_context15) {
+	                            while (1) {
+	                                switch (_context15.prev = _context15.next) {
+	                                    case 0:
+	                                        _context15.next = 2;
+	                                        return Sleep(500);
+	
+	                                    case 2:
+	                                        return _context15.abrupt('return', {
+	                                            b: 2
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context15.stop();
+	                                }
+	                            }
+	                        }, _callee15, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref15.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return B;
+	        }(_2.default), (_applyDecoratedDescriptor(_class21.prototype, 'test', [_dec24], Object.getOwnPropertyDescriptor(_class21.prototype, 'test'), _class21.prototype)), _class21));
+	
+	        var b = new B();
+	
+	        var C = (_dec25 = a.connect('testA'), _dec26 = b.connect('testB'), _dec25(_class22 = _dec26(_class22 = function () {
+	            function C() {
+	                _classCallCheck(this, C);
+	
+	                this.state = {
+	                    testA: {
+	                        a: 1
+	                    },
+	                    testB: {
+	                        b: 1
+	                    }
+	                };
+	            }
+	
+	            _createClass(C, [{
+	                key: 'setState',
+	                value: function setState(state) {
+	                    if (this.state.testA.a === 1) {
+	                        _chai.assert.equal(state.testA.a, 2);
+	                        _chai.assert.equal(state.testA.b, undefined);
+	                        this.state.testA = state.testA;
+	                    } else {
+	                        _chai.assert.equal(state.testB.b, 2);
+	                        _chai.assert.equal(state.testB.a, undefined);
+	                        this.state.testB = state.testB;
+	                    }
+	                }
+	            }]);
+	
+	            return C;
+	        }()) || _class22) || _class22);
+	
+	        var c = new C();
+	        c.componentDidMount();
+	        a.dispatch('test');
+	        b.dispatch('test');
+	        setTimeout(function () {
+	            _chai.assert.equal(c.state.testA.a, 2);
+	            _chai.assert.equal(c.state.testB.b, 2);
+	            done();
+	        }, 1000);
+	    });
+	
+	    it('should connect to default state ', function (done) {
+	        var _dec27, _desc19, _value19, _class23, _dec28, _class24;
+	
+	        var A = (_dec27 = (0, _.Reducer)('test'), (_class23 = function (_Store16) {
+	            _inherits(A, _Store16);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
+	            }
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref16 = _asyncToGenerator(regeneratorRuntime.mark(function _callee16() {
+	                        return regeneratorRuntime.wrap(function _callee16$(_context16) {
+	                            while (1) {
+	                                switch (_context16.prev = _context16.next) {
+	                                    case 0:
+	                                        _context16.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context16.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context16.stop();
+	                                }
+	                            }
+	                        }, _callee16, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref16.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class23.prototype, 'test', [_dec27], Object.getOwnPropertyDescriptor(_class23.prototype, 'test'), _class23.prototype)), _class23));
+	
+	        var a = new A();
+	
+	        var B = (_dec28 = a.connect(), _dec28(_class24 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'setState',
+	                value: function setState(state) {
+	                    _chai.assert.equal(state.a, '2');
+	                    _chai.assert.equal(state.b, '1');
+	                    done();
+	                }
+	            }]);
+	
+	            return B;
+	        }()) || _class24);
+	
+	        var b = new B();
+	        b.componentDidMount();
+	        a.dispatch('test');
+	    });
+	
+	    it('should connect specified react state', function (done) {
+	        var _dec29, _desc20, _value20, _class25, _dec30, _class26;
+	
+	        var A = (_dec29 = (0, _.Reducer)('test'), (_class25 = function (_Store17) {
+	            _inherits(A, _Store17);
+	
+	            function A() {
+	                _classCallCheck(this, A);
+	
+	                return _possibleConstructorReturn(this, Object.getPrototypeOf(A).call(this, {
+	                    a: '1',
+	                    b: '2'
+	                }));
+	            }
+	
+	            _createClass(A, [{
+	                key: 'test',
+	                value: function () {
+	                    var _ref17 = _asyncToGenerator(regeneratorRuntime.mark(function _callee17() {
+	                        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+	                            while (1) {
+	                                switch (_context17.prev = _context17.next) {
+	                                    case 0:
+	                                        _context17.next = 2;
+	                                        return Sleep(1);
+	
+	                                    case 2:
+	                                        return _context17.abrupt('return', {
+	                                            a: '2',
+	                                            b: '1'
+	                                        });
+	
+	                                    case 3:
+	                                    case 'end':
+	                                        return _context17.stop();
+	                                }
+	                            }
+	                        }, _callee17, this);
+	                    }));
+	
+	                    function test() {
+	                        return _ref17.apply(this, arguments);
+	                    }
+	
+	                    return test;
+	                }()
+	            }]);
+	
+	            return A;
+	        }(_2.default), (_applyDecoratedDescriptor(_class25.prototype, 'test', [_dec29], Object.getOwnPropertyDescriptor(_class25.prototype, 'test'), _class25.prototype)), _class25));
+	
+	        var a = new A();
+	
+	        var B = (_dec30 = a.connect('test', 'a'), _dec30(_class26 = function () {
+	            function B() {
+	                _classCallCheck(this, B);
+	            }
+	
+	            _createClass(B, [{
+	                key: 'setState',
+	                value: function setState(state) {
+	                    _chai.assert.equal(state.test, '2');
+	                    done();
+	                }
+	            }]);
+	
+	            return B;
+	        }()) || _class26);
+	
+	        var b = new B();
+	        b.componentDidMount();
+	        a.dispatch('test');
 	    });
 	});
-	 it('should handle middlwares properly', (done) => {
-	    async function levelIn(next, state, action, counter) {
-	        assert.equal(state.counter, 4);
-	        assert.equal(action, 'test')
-	        assert.equal(counter, 1);
-	        const afterState = await next({counter: 5});
-	        assert.equal(afterState.counter, 1);
-	        return {
-	            counter: 2,
-	        }
-	    }
-	    async function levelOut(next, state, action, counter) {
-	        assert.equal(state.counter, 0);
-	        assert.equal(action, 'test')
-	        assert.equal(counter, 1);
-	        const afterState = await next({counter: 4});
-	        assert.equal(afterState.counter, 2);
-	        return {
-	            counter: 3,
-	        }
-	    }
-	    @Inject(levelOut, levelIn)
-	    class A extends Store {
-	        constructor() {
-	            super({
-	                counter: 0,
-	            });
-	        }
-	        @Reducer('test')
-	        test(counter) {
-	            assert.equal(this.getState().counter, 5);
-	            return {
-	                counter,
-	            };
-	        }
-	    }
-	    const a = new A();
-	    a.dispatch('test', 1);
-	    setTimeout(() => {
-	        const state = a.getState();
-	        assert.equal(state.counter, 3);
-	        done();
-	    }, 100);
-	});
-	 it ('should connect react class', (done) => {
-	    class A extends Store {
-	        constructor() {
-	            super({
-	                a: '1',
-	                b: '2',
-	            });
-	        }
-	         @Reducer('test')
-	        async test() {
-	            await Sleep(1);
-	            return {
-	                a: '2',
-	                b: '1',
-	            }
-	        }
-	    }
-	    const a = new A();
-	     @a.connect({
-	        A: state => state.a,
-	        B: 'b',
-	    })
-	    class B {
-	        setState(state) {
-	            assert.equal(state.A, '2');
-	            assert.equal(state.B, '1');
-	            done();
-	        }
-	    }
-	    const b = new B();
-	    b.componentDidMount();
-	    a.dispatch('test');
-	});
-	 it ('should connect react state ', (done) => {
-	    class A extends Store {
-	        constructor() {
-	            super({
-	                a: '1',
-	                b: '2',
-	            });
-	        }
-	         @Reducer('test')
-	        async test() {
-	            await Sleep(1);
-	            return {
-	                a: '2',
-	                b: '1',
-	            }
-	        }
-	    }
-	    const a = new A();
-	     @a.connect('test')
-	    class B {
-	        setState(state) {
-	            assert.equal(state.test.a, '2');
-	            assert.equal(state.test.b, '1');
-	            done();
-	        }
-	    }
-	    const b = new B();
-	    b.componentDidMount();
-	    a.dispatch('test');
-	});
-	 it ('should connect to default state ', (done) => {
-	    class A extends Store {
-	        constructor() {
-	            super({
-	                a: '1',
-	                b: '2',
-	            });
-	        }
-	         @Reducer('test')
-	        async test() {
-	            await Sleep(1);
-	            return {
-	                a: '2',
-	                b: '1',
-	            };
-	        }
-	    }
-	    const a = new A();
-	     @a.connect()
-	    class B {
-	        setState(state) {
-	            assert.equal(state.a, '2');
-	            assert.equal(state.b, '1');
-	            done();
-	        }
-	    }
-	    const b = new B();
-	    b.componentDidMount();
-	    a.dispatch('test');
-	});
-	 it ('should connect specified react state', (done) => {
-	    class A extends Store {
-	        constructor() {
-	            super({
-	                a: '1',
-	                b: '2',
-	            });
-	        }
-	         @Reducer('test')
-	        async test() {
-	            await Sleep(1);
-	            return {
-	                a: '2',
-	                b: '1',
-	            }
-	        }
-	    }
-	    const a = new A();
-	     @a.connect('test', 'a')
-	    class B {
-	        setState(state) {
-	            assert.equal(state.test, '2');
-	            done();
-	        }
-	    }
-	    const b = new B();
-	    b.componentDidMount();
-	    a.dispatch('test');
-	});
-	});
-	*/
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).setImmediate))
 
 /***/ },
 /* 2 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(setImmediate, clearImmediate) {var nextTick = __webpack_require__(3).nextTick;
+	var apply = Function.prototype.apply;
+	var slice = Array.prototype.slice;
+	var immediateIds = {};
+	var nextImmediateId = 0;
+	
+	// DOM APIs, for completeness
+	
+	exports.setTimeout = function() {
+	  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+	};
+	exports.setInterval = function() {
+	  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+	};
+	exports.clearTimeout =
+	exports.clearInterval = function(timeout) { timeout.close(); };
+	
+	function Timeout(id, clearFn) {
+	  this._id = id;
+	  this._clearFn = clearFn;
+	}
+	Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+	Timeout.prototype.close = function() {
+	  this._clearFn.call(window, this._id);
+	};
+	
+	// Does not start the time, just sets up the members needed.
+	exports.enroll = function(item, msecs) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = msecs;
+	};
+	
+	exports.unenroll = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	  item._idleTimeout = -1;
+	};
+	
+	exports._unrefActive = exports.active = function(item) {
+	  clearTimeout(item._idleTimeoutId);
+	
+	  var msecs = item._idleTimeout;
+	  if (msecs >= 0) {
+	    item._idleTimeoutId = setTimeout(function onTimeout() {
+	      if (item._onTimeout)
+	        item._onTimeout();
+	    }, msecs);
+	  }
+	};
+	
+	// That's not how node.js implements it but the exposed api is the same.
+	exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+	  var id = nextImmediateId++;
+	  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+	
+	  immediateIds[id] = true;
+	
+	  nextTick(function onNextTick() {
+	    if (immediateIds[id]) {
+	      // fn.call() is faster so we optimize for the common use-case
+	      // @see http://jsperf.com/call-apply-segu
+	      if (args) {
+	        fn.apply(null, args);
+	      } else {
+	        fn.call(null);
+	      }
+	      // Prevent ids from leaking
+	      exports.clearImmediate(id);
+	    }
+	  });
+	
+	  return id;
+	};
+	
+	exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+	  delete immediateIds[id];
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2).setImmediate, __webpack_require__(2).clearImmediate))
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	(function () {
+	    try {
+	        cachedSetTimeout = setTimeout;
+	    } catch (e) {
+	        cachedSetTimeout = function () {
+	            throw new Error('setTimeout is not defined');
+	        }
+	    }
+	    try {
+	        cachedClearTimeout = clearTimeout;
+	    } catch (e) {
+	        cachedClearTimeout = function () {
+	            throw new Error('clearTimeout is not defined');
+	        }
+	    }
+	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        return setTimeout(fun, 0);
+	    } else {
+	        return cachedSetTimeout.call(null, fun, 0);
+	    }
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        clearTimeout(marker);
+	    } else {
+	        cachedClearTimeout.call(null, marker);
+	    }
+	}
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+	
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+	
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = runTimeout(cleanUpNextTick);
+	    draining = true;
+	
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    runClearTimeout(timeout);
+	}
+	
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        runTimeout(drainQueue);
+	    }
+	};
+	
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+	
+	function noop() {}
+	
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+	
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+	
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 4 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -898,45 +1776,73 @@ var Classux =
 	                        prototype.componentDidMount = function () {
 	                            var _this4 = this;
 	
-	                            this[DISPOSER] = self.subscribe(function (state, action) {
-	                                var _iteratorNormalCompletion2 = true;
-	                                var _didIteratorError2 = false;
-	                                var _iteratorError2 = undefined;
+	                            this[DISPOSER] = [];
+	                            var _iteratorNormalCompletion2 = true;
+	                            var _didIteratorError2 = false;
+	                            var _iteratorError2 = undefined;
 	
-	                                try {
-	                                    for (var _iterator2 = _this4[UPDATER][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	                                        var item = _step2.value;
+	                            try {
+	                                for (var _iterator2 = this[UPDATER][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	                                    var item = _step2.value;
 	
-	                                        if (item.actions.length === 0) {
-	                                            _this4[item.method](state, action);
-	                                        } else {
-	                                            if (item.actions.indexOf(action) !== -1) {
-	                                                _this4[item.method](state, action);
+	                                    this[DISPOSER].push(item.store.subscribe(function (method, actions) {
+	                                        return function (state, action) {
+	                                            if (actions.length === 0) {
+	                                                _this4[method](state, action);
+	                                            } else {
+	                                                if (actions.indexOf(action) !== -1) {
+	                                                    _this4[method](state, action);
+	                                                }
 	                                            }
-	                                        }
+	                                        };
+	                                    }(item.method, item.actions)));
+	                                }
+	                            } catch (err) {
+	                                _didIteratorError2 = true;
+	                                _iteratorError2 = err;
+	                            } finally {
+	                                try {
+	                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	                                        _iterator2.return();
 	                                    }
-	                                } catch (err) {
-	                                    _didIteratorError2 = true;
-	                                    _iteratorError2 = err;
 	                                } finally {
-	                                    try {
-	                                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	                                            _iterator2.return();
-	                                        }
-	                                    } finally {
-	                                        if (_didIteratorError2) {
-	                                            throw _iteratorError2;
-	                                        }
+	                                    if (_didIteratorError2) {
+	                                        throw _iteratorError2;
 	                                    }
 	                                }
-	                            });
+	                            }
+	
 	                            if (componentDidMount) {
 	                                componentDidMount.call(this);
 	                            }
 	                        };
 	
 	                        prototype.componentWillUnmount = function () {
-	                            this[DISPOSER]();
+	                            var _iteratorNormalCompletion3 = true;
+	                            var _didIteratorError3 = false;
+	                            var _iteratorError3 = undefined;
+	
+	                            try {
+	                                for (var _iterator3 = this[DISPOSER][Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+	                                    var disposer = _step3.value;
+	
+	                                    disposer();
+	                                }
+	                            } catch (err) {
+	                                _didIteratorError3 = true;
+	                                _iteratorError3 = err;
+	                            } finally {
+	                                try {
+	                                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+	                                        _iterator3.return();
+	                                    }
+	                                } finally {
+	                                    if (_didIteratorError3) {
+	                                        throw _iteratorError3;
+	                                    }
+	                                }
+	                            }
+	
 	                            if (componentWillUnmount) {
 	                                componentWillUnmount.call(this);
 	                            }
@@ -946,7 +1852,8 @@ var Classux =
 	
 	                prototype[UPDATER].push({
 	                    method: key,
-	                    actions: actions
+	                    actions: actions,
+	                    store: self
 	                });
 	            };
 	        }
@@ -1014,14 +1921,14 @@ var Classux =
 	}
 
 /***/ },
-/* 3 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(4);
+	module.exports = __webpack_require__(6);
 
 
 /***/ },
-/* 4 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -1043,13 +1950,13 @@ var Classux =
 	 * Assertion Error
 	 */
 	
-	exports.AssertionError = __webpack_require__(5);
+	exports.AssertionError = __webpack_require__(7);
 	
 	/*!
 	 * Utils for plugins (not exported)
 	 */
 	
-	var util = __webpack_require__(6);
+	var util = __webpack_require__(8);
 	
 	/**
 	 * # .use(function)
@@ -1080,47 +1987,47 @@ var Classux =
 	 * Configuration
 	 */
 	
-	var config = __webpack_require__(19);
+	var config = __webpack_require__(21);
 	exports.config = config;
 	
 	/*!
 	 * Primary `Assertion` prototype
 	 */
 	
-	var assertion = __webpack_require__(38);
+	var assertion = __webpack_require__(40);
 	exports.use(assertion);
 	
 	/*!
 	 * Core Assertions
 	 */
 	
-	var core = __webpack_require__(39);
+	var core = __webpack_require__(41);
 	exports.use(core);
 	
 	/*!
 	 * Expect interface
 	 */
 	
-	var expect = __webpack_require__(40);
+	var expect = __webpack_require__(42);
 	exports.use(expect);
 	
 	/*!
 	 * Should interface
 	 */
 	
-	var should = __webpack_require__(41);
+	var should = __webpack_require__(43);
 	exports.use(should);
 	
 	/*!
 	 * Assert interface
 	 */
 	
-	var assert = __webpack_require__(42);
+	var assert = __webpack_require__(44);
 	exports.use(assert);
 
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports) {
 
 	/*!
@@ -1242,7 +2149,7 @@ var Classux =
 
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -1261,124 +2168,124 @@ var Classux =
 	 * test utility
 	 */
 	
-	exports.test = __webpack_require__(7);
+	exports.test = __webpack_require__(9);
 	
 	/*!
 	 * type utility
 	 */
 	
-	exports.type = __webpack_require__(9);
+	exports.type = __webpack_require__(11);
 	
 	/*!
 	 * expectTypes utility
 	 */
-	exports.expectTypes = __webpack_require__(11);
+	exports.expectTypes = __webpack_require__(13);
 	
 	/*!
 	 * message utility
 	 */
 	
-	exports.getMessage = __webpack_require__(12);
+	exports.getMessage = __webpack_require__(14);
 	
 	/*!
 	 * actual utility
 	 */
 	
-	exports.getActual = __webpack_require__(13);
+	exports.getActual = __webpack_require__(15);
 	
 	/*!
 	 * Inspect util
 	 */
 	
-	exports.inspect = __webpack_require__(14);
+	exports.inspect = __webpack_require__(16);
 	
 	/*!
 	 * Object Display util
 	 */
 	
-	exports.objDisplay = __webpack_require__(18);
+	exports.objDisplay = __webpack_require__(20);
 	
 	/*!
 	 * Flag utility
 	 */
 	
-	exports.flag = __webpack_require__(8);
+	exports.flag = __webpack_require__(10);
 	
 	/*!
 	 * Flag transferring utility
 	 */
 	
-	exports.transferFlags = __webpack_require__(20);
+	exports.transferFlags = __webpack_require__(22);
 	
 	/*!
 	 * Deep equal utility
 	 */
 	
-	exports.eql = __webpack_require__(21);
+	exports.eql = __webpack_require__(23);
 	
 	/*!
 	 * Deep path value
 	 */
 	
-	exports.getPathValue = __webpack_require__(29);
+	exports.getPathValue = __webpack_require__(31);
 	
 	/*!
 	 * Deep path info
 	 */
 	
-	exports.getPathInfo = __webpack_require__(30);
+	exports.getPathInfo = __webpack_require__(32);
 	
 	/*!
 	 * Check if a property exists
 	 */
 	
-	exports.hasProperty = __webpack_require__(31);
+	exports.hasProperty = __webpack_require__(33);
 	
 	/*!
 	 * Function name
 	 */
 	
-	exports.getName = __webpack_require__(15);
+	exports.getName = __webpack_require__(17);
 	
 	/*!
 	 * add Property
 	 */
 	
-	exports.addProperty = __webpack_require__(32);
+	exports.addProperty = __webpack_require__(34);
 	
 	/*!
 	 * add Method
 	 */
 	
-	exports.addMethod = __webpack_require__(33);
+	exports.addMethod = __webpack_require__(35);
 	
 	/*!
 	 * overwrite Property
 	 */
 	
-	exports.overwriteProperty = __webpack_require__(34);
+	exports.overwriteProperty = __webpack_require__(36);
 	
 	/*!
 	 * overwrite Method
 	 */
 	
-	exports.overwriteMethod = __webpack_require__(35);
+	exports.overwriteMethod = __webpack_require__(37);
 	
 	/*!
 	 * Add a chainable method
 	 */
 	
-	exports.addChainableMethod = __webpack_require__(36);
+	exports.addChainableMethod = __webpack_require__(38);
 	
 	/*!
 	 * Overwrite chainable method
 	 */
 	
-	exports.overwriteChainableMethod = __webpack_require__(37);
+	exports.overwriteChainableMethod = __webpack_require__(39);
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -1391,7 +2298,7 @@ var Classux =
 	 * Module dependancies
 	 */
 	
-	var flag = __webpack_require__(8);
+	var flag = __webpack_require__(10);
 	
 	/**
 	 * # test(object, expression)
@@ -1412,7 +2319,7 @@ var Classux =
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	/*!
@@ -1451,14 +2358,14 @@ var Classux =
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(10);
+	module.exports = __webpack_require__(12);
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	/*!
@@ -1598,7 +2505,7 @@ var Classux =
 
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -1621,9 +2528,9 @@ var Classux =
 	 * @api public
 	 */
 	
-	var AssertionError = __webpack_require__(5);
-	var flag = __webpack_require__(8);
-	var type = __webpack_require__(9);
+	var AssertionError = __webpack_require__(7);
+	var flag = __webpack_require__(10);
+	var type = __webpack_require__(11);
 	
 	module.exports = function (obj, types) {
 	  var obj = flag(obj, 'object');
@@ -1646,7 +2553,7 @@ var Classux =
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -1659,10 +2566,10 @@ var Classux =
 	 * Module dependancies
 	 */
 	
-	var flag = __webpack_require__(8)
-	  , getActual = __webpack_require__(13)
-	  , inspect = __webpack_require__(14)
-	  , objDisplay = __webpack_require__(18);
+	var flag = __webpack_require__(10)
+	  , getActual = __webpack_require__(15)
+	  , inspect = __webpack_require__(16)
+	  , objDisplay = __webpack_require__(20);
 	
 	/**
 	 * ### .getMessage(object, message, negateMessage)
@@ -1703,7 +2610,7 @@ var Classux =
 
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports) {
 
 	/*!
@@ -1729,15 +2636,15 @@ var Classux =
 
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// This is (almost) directly from Node.js utils
 	// https://github.com/joyent/node/blob/f8c335d0caf47f16d31413f89aa28eda3878e3aa/lib/util.js
 	
-	var getName = __webpack_require__(15);
-	var getProperties = __webpack_require__(16);
-	var getEnumerableProperties = __webpack_require__(17);
+	var getName = __webpack_require__(17);
+	var getProperties = __webpack_require__(18);
+	var getEnumerableProperties = __webpack_require__(19);
 	
 	module.exports = inspect;
 	
@@ -2070,7 +2977,7 @@ var Classux =
 
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/*!
@@ -2098,7 +3005,7 @@ var Classux =
 
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports) {
 
 	/*!
@@ -2140,7 +3047,7 @@ var Classux =
 
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	/*!
@@ -2172,7 +3079,7 @@ var Classux =
 
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -2185,8 +3092,8 @@ var Classux =
 	 * Module dependancies
 	 */
 	
-	var inspect = __webpack_require__(14);
-	var config = __webpack_require__(19);
+	var inspect = __webpack_require__(16);
+	var config = __webpack_require__(21);
 	
 	/**
 	 * ### .objDisplay (object)
@@ -2228,7 +3135,7 @@ var Classux =
 
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -2289,7 +3196,7 @@ var Classux =
 
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
 	/*!
@@ -2340,14 +3247,14 @@ var Classux =
 
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(22);
+	module.exports = __webpack_require__(24);
 
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -2360,14 +3267,14 @@ var Classux =
 	 * Module dependencies
 	 */
 	
-	var type = __webpack_require__(23);
+	var type = __webpack_require__(25);
 	
 	/*!
 	 * Buffer.isBuffer browser shim
 	 */
 	
 	var Buffer;
-	try { Buffer = __webpack_require__(25).Buffer; }
+	try { Buffer = __webpack_require__(27).Buffer; }
 	catch(ex) {
 	  Buffer = {};
 	  Buffer.isBuffer = function() { return false; }
@@ -2610,14 +3517,14 @@ var Classux =
 
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(24);
+	module.exports = __webpack_require__(26);
 
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports) {
 
 	/*!
@@ -2765,7 +3672,7 @@ var Classux =
 
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer, global) {/*!
@@ -2778,9 +3685,9 @@ var Classux =
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(26)
-	var ieee754 = __webpack_require__(27)
-	var isArray = __webpack_require__(28)
+	var base64 = __webpack_require__(28)
+	var ieee754 = __webpack_require__(29)
+	var isArray = __webpack_require__(30)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -4317,10 +5224,10 @@ var Classux =
 	  return i
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(27).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -4450,7 +5357,7 @@ var Classux =
 
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -4540,7 +5447,7 @@ var Classux =
 
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports) {
 
 	var toString = {}.toString;
@@ -4551,7 +5458,7 @@ var Classux =
 
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -4561,7 +5468,7 @@ var Classux =
 	 * MIT Licensed
 	 */
 	
-	var getPathInfo = __webpack_require__(30);
+	var getPathInfo = __webpack_require__(32);
 	
 	/**
 	 * ### .getPathValue(path, object)
@@ -4600,7 +5507,7 @@ var Classux =
 
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -4609,7 +5516,7 @@ var Classux =
 	 * MIT Licensed
 	 */
 	
-	var hasProperty = __webpack_require__(31);
+	var hasProperty = __webpack_require__(33);
 	
 	/**
 	 * ### .getPathInfo(path, object)
@@ -4717,7 +5624,7 @@ var Classux =
 
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -4726,7 +5633,7 @@ var Classux =
 	 * MIT Licensed
 	 */
 	
-	var type = __webpack_require__(9);
+	var type = __webpack_require__(11);
 	
 	/**
 	 * ### .hasProperty(object, name)
@@ -4787,7 +5694,7 @@ var Classux =
 
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -4796,8 +5703,8 @@ var Classux =
 	 * MIT Licensed
 	 */
 	
-	var config = __webpack_require__(19);
-	var flag = __webpack_require__(8);
+	var config = __webpack_require__(21);
+	var flag = __webpack_require__(10);
 	
 	/**
 	 * ### addProperty (ctx, name, getter)
@@ -4841,7 +5748,7 @@ var Classux =
 
 
 /***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -4850,7 +5757,7 @@ var Classux =
 	 * MIT Licensed
 	 */
 	
-	var config = __webpack_require__(19);
+	var config = __webpack_require__(21);
 	
 	/**
 	 * ### .addMethod (ctx, name, method)
@@ -4877,7 +5784,7 @@ var Classux =
 	 * @name addMethod
 	 * @api public
 	 */
-	var flag = __webpack_require__(8);
+	var flag = __webpack_require__(10);
 	
 	module.exports = function (ctx, name, method) {
 	  ctx[name] = function () {
@@ -4891,7 +5798,7 @@ var Classux =
 
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports) {
 
 	/*!
@@ -4952,7 +5859,7 @@ var Classux =
 
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports) {
 
 	/*!
@@ -5010,7 +5917,7 @@ var Classux =
 
 
 /***/ },
-/* 36 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -5023,9 +5930,9 @@ var Classux =
 	 * Module dependencies
 	 */
 	
-	var transferFlags = __webpack_require__(20);
-	var flag = __webpack_require__(8);
-	var config = __webpack_require__(19);
+	var transferFlags = __webpack_require__(22);
+	var flag = __webpack_require__(10);
+	var config = __webpack_require__(21);
 	
 	/*!
 	 * Module variables
@@ -5128,7 +6035,7 @@ var Classux =
 
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports) {
 
 	/*!
@@ -5188,7 +6095,7 @@ var Classux =
 
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -5198,7 +6105,7 @@ var Classux =
 	 * MIT Licensed
 	 */
 	
-	var config = __webpack_require__(19);
+	var config = __webpack_require__(21);
 	
 	module.exports = function (_chai, util) {
 	  /*!
@@ -5325,7 +6232,7 @@ var Classux =
 
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports) {
 
 	/*!
@@ -7191,7 +8098,7 @@ var Classux =
 
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports) {
 
 	/*!
@@ -7231,7 +8138,7 @@ var Classux =
 
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports) {
 
 	/*!
@@ -7438,7 +8345,7 @@ var Classux =
 
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports) {
 
 	/*!
