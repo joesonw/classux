@@ -1,6 +1,6 @@
 {
   "name": "classux",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "class based flux store for react",
   "main": "dist/index.js",
   "typings": "index.d.ts",
@@ -35,6 +35,7 @@
     "babel-core": "^6.11.4",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.9.1",
     "babel-preset-es2015": "^6.9.0",

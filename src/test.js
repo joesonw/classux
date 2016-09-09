@@ -438,6 +438,12 @@ describe('test', () => {
 
         @a.connect('test')
         class B {
+            state = {
+                test: {
+                    a: 0,
+                    b: 1,
+                },
+            }
             setState(state) {
                 assert.equal(state.test.a, '2');
                 assert.equal(state.test.b, '1');
@@ -445,6 +451,8 @@ describe('test', () => {
             }
         }
         const b = new B();
+        assert.equal(b.state.test.a, '1');
+        assert.equal(b.state.test.b, '2');
         b.componentDidMount();
         a.dispatch('test');
     });
@@ -584,5 +592,4 @@ describe('test', () => {
         b.componentDidMount();
         a.dispatch('test');
     });
-
 });

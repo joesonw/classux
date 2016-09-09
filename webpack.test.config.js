@@ -19,6 +19,7 @@ module.exports = {
     				plugins: [
                         'transform-decorators-legacy',
                         'transform-async-to-generator',
+                        'transform-class-properties',
     				],
 					presets: ['es2015'],
 				}

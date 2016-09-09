@@ -84,6 +84,12 @@ class App extends React.Component {
 ###getState()
 > get current state
 
+###connect(source, destination)
+> this is a decorator used on react components, it automatically update components state upon updates.
+
+> if destination is not specified, then the root store state is taken (CAUTION, not compatible with Immutable yet)
+
+
 ###onUpdate(...actions)
 > if no actions are specified, then all actions are listened.
 
@@ -158,6 +164,7 @@ setTimeout(() => {
     done();
 }, 100);
 ```
+
 
 #TODO
 

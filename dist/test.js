@@ -1013,6 +1013,13 @@ var Classux =
 	        var B = (_dec22 = a.connect('test'), _dec22(_class19 = function () {
 	            function B() {
 	                _classCallCheck(this, B);
+	
+	                this.state = {
+	                    test: {
+	                        a: 0,
+	                        b: 1
+	                    }
+	                };
 	            }
 	
 	            _createClass(B, [{
@@ -1028,14 +1035,16 @@ var Classux =
 	        }()) || _class19);
 	
 	        var b = new B();
+	        _chai.assert.equal(b.state.test.a, '1');
+	        _chai.assert.equal(b.state.test.b, '2');
 	        b.componentDidMount();
 	        a.dispatch('test');
 	    });
 	
 	    it('should connect to multiple react state ', function (done) {
-	        var _dec23, _desc17, _value17, _class20, _dec24, _desc18, _value18, _class21, _dec25, _dec26, _class22;
+	        var _dec23, _desc17, _value17, _class21, _dec24, _desc18, _value18, _class22, _dec25, _dec26, _class23;
 	
-	        var A = (_dec23 = (0, _.Reducer)('test'), (_class20 = function (_Store14) {
+	        var A = (_dec23 = (0, _.Reducer)('test'), (_class21 = function (_Store14) {
 	            _inherits(A, _Store14);
 	
 	            function A() {
@@ -1079,11 +1088,11 @@ var Classux =
 	            }]);
 	
 	            return A;
-	        }(_2.default), (_applyDecoratedDescriptor(_class20.prototype, 'test', [_dec23], Object.getOwnPropertyDescriptor(_class20.prototype, 'test'), _class20.prototype)), _class20));
+	        }(_2.default), (_applyDecoratedDescriptor(_class21.prototype, 'test', [_dec23], Object.getOwnPropertyDescriptor(_class21.prototype, 'test'), _class21.prototype)), _class21));
 	
 	        var a = new A();
 	
-	        var B = (_dec24 = (0, _.Reducer)('test'), (_class21 = function (_Store15) {
+	        var B = (_dec24 = (0, _.Reducer)('test'), (_class22 = function (_Store15) {
 	            _inherits(B, _Store15);
 	
 	            function B() {
@@ -1127,11 +1136,11 @@ var Classux =
 	            }]);
 	
 	            return B;
-	        }(_2.default), (_applyDecoratedDescriptor(_class21.prototype, 'test', [_dec24], Object.getOwnPropertyDescriptor(_class21.prototype, 'test'), _class21.prototype)), _class21));
+	        }(_2.default), (_applyDecoratedDescriptor(_class22.prototype, 'test', [_dec24], Object.getOwnPropertyDescriptor(_class22.prototype, 'test'), _class22.prototype)), _class22));
 	
 	        var b = new B();
 	
-	        var C = (_dec25 = a.connect('testA'), _dec26 = b.connect('testB'), _dec25(_class22 = _dec26(_class22 = function () {
+	        var C = (_dec25 = a.connect('testA'), _dec26 = b.connect('testB'), _dec25(_class23 = _dec26(_class23 = function () {
 	            function C() {
 	                _classCallCheck(this, C);
 	
@@ -1161,7 +1170,7 @@ var Classux =
 	            }]);
 	
 	            return C;
-	        }()) || _class22) || _class22);
+	        }()) || _class23) || _class23);
 	
 	        var c = new C();
 	        c.componentDidMount();
@@ -1175,9 +1184,9 @@ var Classux =
 	    });
 	
 	    it('should connect to default state ', function (done) {
-	        var _dec27, _desc19, _value19, _class23, _dec28, _class24;
+	        var _dec27, _desc19, _value19, _class24, _dec28, _class25;
 	
-	        var A = (_dec27 = (0, _.Reducer)('test'), (_class23 = function (_Store16) {
+	        var A = (_dec27 = (0, _.Reducer)('test'), (_class24 = function (_Store16) {
 	            _inherits(A, _Store16);
 	
 	            function A() {
@@ -1223,11 +1232,11 @@ var Classux =
 	            }]);
 	
 	            return A;
-	        }(_2.default), (_applyDecoratedDescriptor(_class23.prototype, 'test', [_dec27], Object.getOwnPropertyDescriptor(_class23.prototype, 'test'), _class23.prototype)), _class23));
+	        }(_2.default), (_applyDecoratedDescriptor(_class24.prototype, 'test', [_dec27], Object.getOwnPropertyDescriptor(_class24.prototype, 'test'), _class24.prototype)), _class24));
 	
 	        var a = new A();
 	
-	        var B = (_dec28 = a.connect(), _dec28(_class24 = function () {
+	        var B = (_dec28 = a.connect(), _dec28(_class25 = function () {
 	            function B() {
 	                _classCallCheck(this, B);
 	            }
@@ -1242,7 +1251,7 @@ var Classux =
 	            }]);
 	
 	            return B;
-	        }()) || _class24);
+	        }()) || _class25);
 	
 	        var b = new B();
 	        b.componentDidMount();
@@ -1250,9 +1259,9 @@ var Classux =
 	    });
 	
 	    it('should connect specified react state', function (done) {
-	        var _dec29, _desc20, _value20, _class25, _dec30, _class26;
+	        var _dec29, _desc20, _value20, _class26, _dec30, _class27;
 	
-	        var A = (_dec29 = (0, _.Reducer)('test'), (_class25 = function (_Store17) {
+	        var A = (_dec29 = (0, _.Reducer)('test'), (_class26 = function (_Store17) {
 	            _inherits(A, _Store17);
 	
 	            function A() {
@@ -1298,11 +1307,11 @@ var Classux =
 	            }]);
 	
 	            return A;
-	        }(_2.default), (_applyDecoratedDescriptor(_class25.prototype, 'test', [_dec29], Object.getOwnPropertyDescriptor(_class25.prototype, 'test'), _class25.prototype)), _class25));
+	        }(_2.default), (_applyDecoratedDescriptor(_class26.prototype, 'test', [_dec29], Object.getOwnPropertyDescriptor(_class26.prototype, 'test'), _class26.prototype)), _class26));
 	
 	        var a = new A();
 	
-	        var B = (_dec30 = a.connect('test', 'a'), _dec30(_class26 = function () {
+	        var B = (_dec30 = a.connect('test', 'a'), _dec30(_class27 = function () {
 	            function B() {
 	                _classCallCheck(this, B);
 	            }
@@ -1316,7 +1325,7 @@ var Classux =
 	            }]);
 	
 	            return B;
-	        }()) || _class26);
+	        }()) || _class27);
 	
 	        var b = new B();
 	        b.componentDidMount();
@@ -1556,6 +1565,10 @@ var Classux =
 	});
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
 	
@@ -1863,27 +1876,46 @@ var Classux =
 	            var self = this;
 	            return function (obj) {
 	                var METHOD = Symbol();
-	                obj.prototype[METHOD] = function (state) {
-	                    var s = {};
-	                    if (typeof schema === 'string' && typeof source === 'string') {
-	                        s[schema] = state[source];
-	                    } else if (typeof schema === 'string') {
-	                        s[schema] = state;
-	                    } else if (schema) {
-	                        for (var key in schema) {
-	                            var match = schema[key];
-	                            if (typeof match === 'function') {
-	                                s[key] = schema[key](state);
-	                            } else {
-	                                s[key] = state[schema[key]];
-	                            }
-	                        }
-	                    } else {
-	                        s = state;
-	                    }
-	                    this.setState(s);
-	                };
 	                self.onUpdate()(obj.prototype, METHOD);
+	                return function (_obj) {
+	                    _inherits(_class, _obj);
+	
+	                    function _class(props) {
+	                        _classCallCheck(this, _class);
+	
+	                        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(_class).call(this, props));
+	
+	                        _this5.state = _this5.state || {};
+	                        _this5.state[schema] = self.getState();
+	                        return _this5;
+	                    }
+	
+	                    _createClass(_class, [{
+	                        key: METHOD,
+	                        value: function value(state) {
+	                            var s = {};
+	                            if (typeof schema === 'string' && typeof source === 'string') {
+	                                s[schema] = state[source];
+	                            } else if (typeof schema === 'string') {
+	                                s[schema] = state;
+	                            } else if (schema) {
+	                                for (var key in schema) {
+	                                    var match = schema[key];
+	                                    if (typeof match === 'function') {
+	                                        s[key] = schema[key](state);
+	                                    } else {
+	                                        s[key] = state[schema[key]];
+	                                    }
+	                                }
+	                            } else {
+	                                s = state;
+	                            }
+	                            this.setState(s);
+	                        }
+	                    }]);
+	
+	                    return _class;
+	                }(obj);
 	            };
 	        }
 	    }, {

@@ -129,28 +129,35 @@ export default class Store {
         const self = this;
         return (obj) =>  {
             const METHOD = Symbol();
-            obj.prototype[METHOD] = function(state) {
-                let s = {};
-                if (typeof(schema) === 'string' &&
-                          typeof(source) === 'string') {
-                    s[schema] = state[source];
-                } else if (typeof(schema) === 'string') {
-                    s[schema] = state;
-                } else if (schema) {
-                    for (const key in schema) {
-                        const match = schema[key];
-                        if (typeof(match) === 'function') {
-                            s[key] = schema[key](state);
-                        } else {
-                            s[key] = state[schema[key]];
-                        }
-                    }
-                } else {
-                    s = state;
-                }
-                this.setState(s);
-            }
             self.onUpdate()(obj.prototype, METHOD);
+            return class extends obj {
+                constructor(props) {
+                    super(props);
+                    this.state = this.state || {};
+                    this.state[schema] = self.getState();
+                }
+                [METHOD](state) {
+                    let s = {};
+                    if (typeof(schema) === 'string' &&
+                              typeof(source) === 'string') {
+                        s[schema] = state[source];
+                    } else if (typeof(schema) === 'string') {
+                        s[schema] = state;
+                    } else if (schema) {
+                        for (const key in schema) {
+                            const match = schema[key];
+                            if (typeof(match) === 'function') {
+                                s[key] = schema[key](state);
+                            } else {
+                                s[key] = state[schema[key]];
+                            }
+                        }
+                    } else {
+                        s = state;
+                    }
+                    this.setState(s);
+                }
+            }
         }
     }
 
