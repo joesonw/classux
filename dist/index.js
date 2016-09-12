@@ -382,7 +382,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(_class).call(this, props));
 	
 	                        _this5.state = _this5.state || {};
-	                        _this5.state[schema] = self.getState();
+	                        var state = self.getState();
+	                        if (source) {
+	                            state = state[source];
+	                        }
+	                        if (schema) {
+	                            _this5.state[schema] = state;
+	                        } else {
+	                            _this5.state = state;
+	                        }
 	                        return _this5;
 	                    }
 	

@@ -134,7 +134,15 @@ export default class Store {
                 constructor(props) {
                     super(props);
                     this.state = this.state || {};
-                    this.state[schema] = self.getState();
+                    let state = self.getState();
+                    if (source) {
+                      state = state[source];
+                    }
+                    if (schema) {
+                      this.state[schema] = state;
+                    } else {
+                      this.state = state;
+                    }
                 }
                 [METHOD](state) {
                     let s = {};

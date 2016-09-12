@@ -9,7 +9,8 @@ declare module 'classux' {
         private notify(action, params?);
         dispatch(action: string, params?: any): void;
         getState(): State;
-        onUpdate(): (prototype: any, key: string) => void;
+        onUpdate(...actions: string[] ): (prototype: any, key: string) => void;
+        connect(schema: string, source: string): (prototype: any) => void;
     }
     export default Store;
     export function Reducer<S>(action: string): (prototype: Store<S>, key: string) => void;
