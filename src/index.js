@@ -1,3 +1,4 @@
+import _ from 'lodash';
 export { Reducer, Inject };
 
 const UPDATER = Symbol();
@@ -9,8 +10,34 @@ const REDUCERS = Symbol();
 const DEFAULT_STATE = Symbol();
 const MIDDLEWARES = Symbol();
 
+const GET_STATE = Symbol();
+const GET_SOURCE = Symbol();
+
 
 const NOTIFY = Symbol();
+
+const getSource = (source, arg) => {
+  if (typeof(arg) === 'string') {
+    return source[arg];
+  } else if (typeof(arg) === 'function') {
+    return arg(source);
+  }
+  return source;
+}
+
+const getState = (state, stateArg, sourceArg) => {
+  const source = getSource(state, sourceArg);
+  let s = {};
+  if (typeof(stateArg) === 'string') {
+    s[stateArg] = source;
+  } else if (typeof(stateArg) === 'function') {
+    s = stateArg(source);
+  } else {
+    s = state;
+  }
+  return s;
+}
+
 
 export default class Store {
     constructor(defaultState) {
@@ -24,6 +51,7 @@ export default class Store {
                 listener(this[STATE], action, ...params);
             }
         }
+
     }
 
     subscribe(listener) {
@@ -122,7 +150,7 @@ export default class Store {
                 actions,
                 store: self,
             });
-        }
+        };
     }
 
     connect(schema, source) {
@@ -134,39 +162,13 @@ export default class Store {
                 constructor(props) {
                     super(props);
                     this.state = this.state || {};
-                    let state = self.getState();
-                    if (source) {
-                      state = state[source];
-                    }
-                    if (schema) {
-                      this.state[schema] = state;
-                    } else {
-                      this.state = state;
-                    }
+                    this.state = _.extend(this.state, getState(self.getState(), schema, source));
                 }
                 [METHOD](state) {
-                    let s = {};
-                    if (typeof(schema) === 'string' &&
-                              typeof(source) === 'string') {
-                        s[schema] = state[source];
-                    } else if (typeof(schema) === 'string') {
-                        s[schema] = state;
-                    } else if (schema) {
-                        for (const key in schema) {
-                            const match = schema[key];
-                            if (typeof(match) === 'function') {
-                                s[key] = schema[key](state);
-                            } else {
-                                s[key] = state[schema[key]];
-                            }
-                        }
-                    } else {
-                        s = state;
-                    }
-                    this.setState(s);
+                    this.setState(getState(state, schema, source));
                 }
             }
-        }
+        };
     }
 
     inject(...middlwares) {
@@ -178,11 +180,11 @@ function Reducer(action) {
     return (prototype, key) => {
         prototype[REDUCERS] = prototype[REDUCERS] || {};
         prototype[REDUCERS][action] = key;
-    }
+    };
 }
 function Inject(...middlewares) {
     return (obj) => {
         obj.prototype[MIDDLEWARES] = obj.prototype[MIDDLEWARES] || [];
         obj.prototype[MIDDLEWARES].push(...middlewares);
-    }
+    };
 }

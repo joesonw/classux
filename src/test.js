@@ -400,10 +400,10 @@ describe('test', () => {
         }
         const a = new A();
 
-        @a.connect({
-            A: state => state.a,
-            B: 'b',
-        })
+        @a.connect(state => ({
+          A: state.a,
+          B: state.b
+        }))
         class B {
             setState(state) {
                 assert.equal(state.A, '2');
@@ -415,6 +415,88 @@ describe('test', () => {
         b.componentDidMount();
         a.dispatch('test');
     });
+
+    it ('should connect react class 2', (done) => {
+        class A extends Store {
+            constructor() {
+                super({
+                    TEST: {
+                        a: '1',
+                        b: '2',
+                      },
+                });
+            }
+
+            @Reducer('test')
+            async test() {
+                await Sleep(1);
+                return {
+                    TEST: {
+                        a: '2',
+                        b: '1',
+                    },
+                };
+            }
+        }
+        const a = new A();
+
+        @a.connect('test', store => store.TEST)
+        class B {
+            setState(state) {
+                assert.equal(state.test.a, '2');
+                assert.equal(state.test.b, '1');
+                done();
+            }
+        }
+        const b = new B();
+        assert.equal(b.state.test.a, '1');
+        assert.equal(b.state.test.b, '2');
+        b.componentDidMount();
+        a.dispatch('test');
+    });
+
+    it ('should connect react class 3', (done) => {
+        class A extends Store {
+            constructor() {
+                super({
+                    TEST: {
+                        a: '1',
+                        b: '2',
+                    },
+                });
+            }
+
+            @Reducer('test')
+            async test() {
+                await Sleep(1);
+                return {
+                    TEST: {
+                        a: '2',
+                        b: '1',
+                    },
+                }
+            }
+        }
+        const a = new A();
+
+        @a.connect(state => ({
+          A: state.a,
+          B: state.b
+        }), store => store.TEST)
+        class B {
+            setState(state) {
+                assert.equal(state.A, '2');
+                assert.equal(state.B, '1');
+                done();
+            }
+        }
+        const b = new B();
+        assert.equal(b.state.A, '1');
+        assert.equal(b.state.B, '2');
+        b.componentDidMount();
+        a.dispatch('test');
+    });
+
 
     it ('should connect react state ', (done) => {
         class A extends Store {
