@@ -1,6 +1,6 @@
 {
   "name": "classux",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "class based flux store for react",
   "main": "dist/index.js",
   "typings": "index.d.ts",
