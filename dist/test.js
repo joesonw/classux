@@ -1112,6 +1112,8 @@ var Classux =
 	            _createClass(B, [{
 	                key: 'setState',
 	                value: function setState(state) {
+	                    _chai.assert.equal(this.state.A, '1');
+	                    _chai.assert.equal(this.state.B, '2');
 	                    _chai.assert.equal(state.A, '2');
 	                    _chai.assert.equal(state.B, '1');
 	                    done();

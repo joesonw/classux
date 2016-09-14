@@ -485,6 +485,8 @@ describe('test', () => {
         }), store => store.TEST)
         class B {
             setState(state) {
+                assert.equal(this.state.A, '1');
+                assert.equal(this.state.B, '2');
                 assert.equal(state.A, '2');
                 assert.equal(state.B, '1');
                 done();
