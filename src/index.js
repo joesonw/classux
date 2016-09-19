@@ -55,8 +55,9 @@ export default class Store {
     }
 
     subscribe(listener) {
-        const index = this[LISTENERS].push(listener) - 1;
+        this[LISTENERS].push(listener);
         return () => {
+            const index = this[LISTENERS].indexOf(listener);
             this[LISTENERS].splice(index, 1);
         };
     }
