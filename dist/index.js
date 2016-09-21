@@ -165,8 +165,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function subscribe(listener) {
 	            var _this2 = this;
 	
-	            var index = this[LISTENERS].push(listener) - 1;
+	            this[LISTENERS].push(listener);
 	            return function () {
+	                var index = _this2[LISTENERS].indexOf(listener);
 	                _this2[LISTENERS].splice(index, 1);
 	            };
 	        }
