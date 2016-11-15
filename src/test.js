@@ -309,6 +309,45 @@ describe('test', () => {
         setTimeout(done, 100);
     });
 
+    it ('should call @onUpdate methods with right params', (done) => {
+        class A extends Store {
+            constructor() {
+                super({
+                    a: '1',
+                    b: '2',
+                });
+            }
+
+            @Reducer('test')
+            async test(a, b) {
+                await Sleep(1);
+                return {
+                    a: a,
+                    b: b,
+                }
+            }
+        }
+        const a = new A();
+
+        class B {
+            @a.onUpdate()
+            onUpdate(state, action, a, b) {
+                assert.equal(state.a, '3');
+                assert.equal(state.b, '4');
+                assert.equal(action, 'test');
+                assert.equal(a, '3');
+                assert.equal(b, '4');
+                done();
+            }
+        }
+        const b = new B();
+        b.componentDidMount();
+        a.dispatch('test', '3', '4');
+        const state = a.getState();
+        assert.equal(state.a, '1');
+        assert.equal(state.b, '2');
+    });
+
     it ('should take params', (done) => {
         class A extends Store {
             constructor() {
