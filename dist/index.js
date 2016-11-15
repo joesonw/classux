@@ -165,8 +165,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function subscribe(listener) {
 	            var _this2 = this;
 	
-	            var index = this[LISTENERS].push(listener) - 1;
+	            this[LISTENERS].push(listener);
 	            return function () {
+	                var index = _this2[LISTENERS].indexOf(listener);
 	                _this2[LISTENERS].splice(index, 1);
 	            };
 	        }
@@ -289,7 +290,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	            run(dispatch).then(function (state) {
 	                self[STATE] = state;
-	                self[NOTIFY](action, params);
+	                self[NOTIFY].apply(self, [action].concat(params));
 	            }).catch(function (e) {
 	                console.log(e.stack || e);
 	            });
@@ -328,11 +329,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	                                    this[DISPOSER].push(item.store.subscribe(function (method, actions) {
 	                                        return function (state, action) {
+	                                            for (var _len4 = arguments.length, params = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
+	                                                params[_key4 - 2] = arguments[_key4];
+	                                            }
+	
 	                                            if (actions.length === 0) {
-	                                                _this4[method](state, action);
+	                                                _this4[method].apply(_this4, [state, action].concat(params));
 	                                            } else {
 	                                                if (actions.indexOf(action) !== -1) {
-	                                                    _this4[method](state, action);
+	                                                    _this4[method].apply(_this4, [state, action].concat(params));
 	                                                }
 	                                            }
 	                                        };
@@ -411,7 +416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    function _class(props) {
 	                        _classCallCheck(this, _class);
 	
-	                        var _this5 = _possibleConstructorReturn(this, Object.getPrototypeOf(_class).call(this, props));
+	                        var _this5 = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
 	
 	                        _this5.state = _this5.state || {};
 	                        _this5.state = _lodash2.default.extend(_this5.state, getState(self.getState(), schema, source));
@@ -451,8 +456,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 	}
 	function Inject() {
-	    for (var _len4 = arguments.length, middlewares = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-	        middlewares[_key4] = arguments[_key4];
+	    for (var _len5 = arguments.length, middlewares = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+	        middlewares[_key5] = arguments[_key5];
 	    }
 	
 	    return function (obj) {

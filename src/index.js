@@ -97,7 +97,7 @@ export default class Store {
         run(dispatch)
             .then(state => {
                 self[STATE] = state;
-                self[NOTIFY](action, params);
+                self[NOTIFY](action, ...params);
             })
             .catch(e => {
                 console.log(e.stack || e);
@@ -120,12 +120,12 @@ export default class Store {
                     this[DISPOSER] = [];
                     for (const item of this[UPDATER]) {
                         this[DISPOSER].push(item.store.subscribe(((method, actions) =>
-                            (state, action) => {
+                            (state, action, ...params) => {
                                 if (actions.length === 0) {
-                                    this[method](state, action);
+                                    this[method](state, action, ...params);
                                 } else {
                                     if (actions.indexOf(action) !== -1) {
-                                        this[method](state, action);
+                                        this[method](state, action, ...params);
                                     }
                                 }
                             }
