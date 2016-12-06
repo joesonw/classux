@@ -94,14 +94,16 @@ export default class Store {
             }
             return await next();
         }
-        run(dispatch)
-            .then(state => {
-                self[STATE] = state;
-                self[NOTIFY](action, ...params);
-            })
-            .catch(e => {
-                console.log(e.stack || e);
-            })
+		setImmediate(() => {
+			run(dispatch)
+				.then(state => {
+					self[STATE] = state;
+					self[NOTIFY](action, ...params);
+				})
+				.catch(e => {
+					console.log(e.stack || e);
+				})
+		});
     }
 
     getState() {

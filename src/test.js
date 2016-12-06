@@ -42,12 +42,12 @@ describe('test', () => {
         }
         const a = new A();
         a.dispatch('test')
-        setImmediate(() => {
+        setTimeout(() => {
             const state = a.getState();
             assert.equal(state.a, '2');
             assert.equal(state.b, '1');
             done();
-        });
+        }, 100);
     });
 
     it ('should respond to async reducer', (done) => {
@@ -366,12 +366,12 @@ describe('test', () => {
         }
         const a = new A();
         a.dispatch('test', '2', '1');
-        setImmediate(() => {
+        setTimeout(() => {
             const state = a.getState();
             assert.equal(state.a, '2');
             assert.equal(state.b, '1');
             done();
-        });
+        }, 100);
     });
 
     it('should handle middlwares properly', (done) => {
